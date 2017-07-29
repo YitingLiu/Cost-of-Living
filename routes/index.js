@@ -3,18 +3,17 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 // our db models
-var Person = require("../models/person.js");
-var Course = require("../models/course.js");
+var Item = require("../models/item.js");
 
 // S3 File dependencies
-var AWS = require('aws-sdk');
-var awsBucketName = process.env.AWS_BUCKET_NAME;
-var s3Path = process.env.AWS_S3_PATH; // TODO - we shouldn't hard code the path, but get a temp URL dynamically using aws-sdk's getObject
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_KEY
-});
-var s3 = new AWS.S3();
+// var AWS = require('aws-sdk');
+// var awsBucketName = process.env.AWS_BUCKET_NAME;
+// var s3Path = process.env.AWS_S3_PATH; // TODO - we shouldn't hard code the path, but get a temp URL dynamically using aws-sdk's getObject
+// AWS.config.update({
+//   accessKeyId: process.env.AWS_ACCESS_KEY,
+//   secretAccessKey: process.env.AWS_SECRET_KEY
+// });
+// var s3 = new AWS.S3();
 
 // file processing dependencies
 var fs = require('fs');
@@ -32,7 +31,7 @@ router.get('/', function(req, res) {
   console.log('home page requested!');
 
   var jsonData = {
-  	'name': 'itp-directory',
+  	'name': 'item-directory',
   	'api-status':'OK'
   }
 
@@ -43,7 +42,7 @@ router.get('/', function(req, res) {
   //res.redirect('/directory')
 
   // respond with html
-  res.render('directory.html')
+  res.render('test.html')
 
 });
 
@@ -53,11 +52,11 @@ router.get('/add-person', function(req,res){
 
 })
 
-router.get('/add-person-with-image', function(req,res){
+// router.get('/add-person-with-image', function(req,res){
 
-  res.render('add-with-image.html')
+//   res.render('add-with-image.html')
 
-})
+// })
 
 router.get('/directory', function(req,res){
 
@@ -79,7 +78,7 @@ router.get('/edit/:id', function(req,res){
       return res.json(err)
     }
 
-    console.log(data); 
+    console.log(data);
 
     var viewData = {
       pageTitle: "Edit " + data.name,
@@ -227,7 +226,7 @@ router.post('/api/create/image', multipartMiddleware, function(req,res){
   var filename = req.files.image.name; // actual filename of file
   var path = req.files.image.path; // will be put into a temp directory
   var mimeType = req.files.image.type; // image/jpeg or actual mime type
-  
+
   // create a cleaned file name to store in S3
   // see cleanFileName function below
   var cleanedFileName = cleanFileName(filename);
@@ -237,7 +236,7 @@ router.post('/api/create/image', multipartMiddleware, function(req,res){
 
     // reference to the Amazon S3 Bucket
     var s3bucket = new AWS.S3({params: {Bucket: awsBucketName}});
-    
+
     // Set the bucket object properties
     // Key == filename
     // Body == contents of file
@@ -249,7 +248,7 @@ router.post('/api/create/image', multipartMiddleware, function(req,res){
       ACL: 'public-read',
       ContentType: mimeType
     };
-    
+
     // Put the above Object in the Bucket
     s3bucket.putObject(params, function(err, data) {
       if (err) {
@@ -279,7 +278,7 @@ router.post('/api/create/image', multipartMiddleware, function(req,res){
             person: data
           }
 
-          return res.json(jsonData);        
+          return res.json(jsonData);
         })
 
       }
@@ -291,23 +290,23 @@ router.post('/api/create/image', multipartMiddleware, function(req,res){
 })
 
 function cleanFileName (filename) {
-    
+
     // cleans and generates new filename for example userID=abc123 and filename="My Pet Dog.jpg"
     // will return "abc123_my_pet_dog.jpg"
     var fileParts = filename.split(".");
-    
+
     //get the file extension
     var fileExtension = fileParts[fileParts.length-1]; //get last part of file
-    
+
     //add time string to make filename a little more random
     d = new Date();
     timeStr = d.getTime();
-    
+
     //name without extension
     newFileName = fileParts[0];
-    
+
     return newFilename = timeStr + "_" + fileParts[0].toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'_') + "." + fileExtension;
-    
+
 }
 
 router.get('/api/get', function(req,res){
@@ -353,7 +352,7 @@ router.get('/api/get/year/:itpYear',function(req,res){
         people: data
       }
 
-      return res.json(jsonData);    
+      return res.json(jsonData);
   })
 
 })
@@ -377,7 +376,7 @@ router.get('/api/get/query',function(req,res){
 
   if(req.query.hasGlasses){
     searchQuery['hasGlasses'] =  req.query.hasGlasses
-  }  
+  }
 
   Person.find(searchQuery,function(err,data){
     res.json(data);
@@ -385,7 +384,7 @@ router.get('/api/get/query',function(req,res){
 
   // Person.find(searchQuery).sort('-name').exec(function(err,data){
   //   res.json(data);
-  // })  
+  // })
 
 
 })

@@ -3,12 +3,12 @@ var Schema = mongoose.Schema;
 
 // See http://mongoosejs.com/docs/schematypes.html
 
-var courseSchema = new Schema({
+var itemSchema = new Schema({
 	name: String,
-	students: [String],
-	teacher: String,
-	dateAdded : { type: Date, default: Date.now }
+    type: String,
+    quantity: Number,
+    dateAdded : { type: Date, default: Date.now }
 })
 
 // export 'Person' model so we can interact with it in other files
-module.exports = mongoose.model('Course',courseSchema);
+module.exports = mongoose.model('Item',itemSchema);
