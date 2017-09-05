@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 
 // our db models
 var Item = require("../models/item.js");
+var UnitPrice = require("../models/unitPrice.js");
 
 // S3 File dependencies
 // var AWS = require('aws-sdk');
@@ -46,17 +47,11 @@ router.get('/', function(req, res) {
 
 });
 
-router.get('/add-person', function(req,res){
+router.get('/add', function(req,res){
 
   res.render('add.html')
 
 })
-
-// router.get('/add-person-with-image', function(req,res){
-
-//   res.render('add-with-image.html')
-
-// })
 
 router.get('/directory', function(req,res){
 
@@ -132,21 +127,17 @@ router.post('/api/create', function(req,res){
 
   console.log(req.body);
 
-  var personObj = {
+  var itemObj = {
+    expense: req.body.expense,
     name: req.body.name,
-    itpYear: req.body.itpYear,
-    interests: req.body.interests.split(','),
-    link: req.body.link,
-    imageUrl: req.body.imageUrl,
-    slug : req.body.name.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-')
+    category: req.body.category,
+    quantity: req.body.quantity,
+    date: req.body.date
   }
 
-  if (req.body.hasGlasses == 'yes') personObj['hasGlasses'] = true;
-  else personObj['hasGlasses'] = false;
+  var item = new Item(itemObj);
 
-  var person = new Person(personObj);
-
-  person.save(function(err,data){
+  item.save(function(err,data){
     if(err){
       var error = {
         status: "ERROR",
@@ -157,10 +148,11 @@ router.post('/api/create', function(req,res){
 
     var jsonData = {
       status: "OK",
-      person: data
+      item: data
     }
 
-    return res.json(jsonData);
+    // return res.redirect('/results');
+        return res.json(jsonData);
 
   })
 
@@ -196,98 +188,98 @@ router.post('/api/edit/:id', function(req,res){
       person: data
     }
 
-    //return res.json(jsonData);
+    return res.json(jsonData);
 
-    return res.redirect('/directory');
+    // return res.redirect('/directory');
 
   })
 
 })
 
-router.post('/api/create/image', multipartMiddleware, function(req,res){
+// router.post('/api/create/image', multipartMiddleware, function(req,res){
 
-  console.log('the incoming data >> ' + JSON.stringify(req.body));
-  console.log('the incoming image file >> ' + JSON.stringify(req.files.image));
+//   console.log('the incoming data >> ' + JSON.stringify(req.body));
+//   console.log('the incoming image file >> ' + JSON.stringify(req.files.image));
 
-  var personObj = {
-    name: req.body.name,
-    itpYear: req.body.itpYear,
-    interests: req.body.interests.split(','),
-    link: req.body.link,
-    slug : req.body.name.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-')
-  }
+//   var personObj = {
+//     name: req.body.name,
+//     itpYear: req.body.itpYear,
+//     interests: req.body.interests.split(','),
+//     link: req.body.link,
+//     slug : req.body.name.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-')
+//   }
 
-  if (req.body.hasGlasses == 'yes') personObj['hasGlasses'] = true;
-  else personObj['hasGlasses'] = false;
+//   if (req.body.hasGlasses == 'yes') personObj['hasGlasses'] = true;
+//   else personObj['hasGlasses'] = false;
 
 
-  // NOW, we need to deal with the image
-  // the contents of the image will come in req.files (not req.body)
-  var filename = req.files.image.name; // actual filename of file
-  var path = req.files.image.path; // will be put into a temp directory
-  var mimeType = req.files.image.type; // image/jpeg or actual mime type
+//   // NOW, we need to deal with the image
+//   // the contents of the image will come in req.files (not req.body)
+//   var filename = req.files.image.name; // actual filename of file
+//   var path = req.files.image.path; // will be put into a temp directory
+//   var mimeType = req.files.image.type; // image/jpeg or actual mime type
 
-  // create a cleaned file name to store in S3
-  // see cleanFileName function below
-  var cleanedFileName = cleanFileName(filename);
+//   // create a cleaned file name to store in S3
+//   // see cleanFileName function below
+//   var cleanedFileName = cleanFileName(filename);
 
-  // We first need to open and read the uploaded image into a buffer
-  fs.readFile(path, function(err, file_buffer){
+//   // We first need to open and read the uploaded image into a buffer
+//   fs.readFile(path, function(err, file_buffer){
 
-    // reference to the Amazon S3 Bucket
-    var s3bucket = new AWS.S3({params: {Bucket: awsBucketName}});
+//     // reference to the Amazon S3 Bucket
+//     var s3bucket = new AWS.S3({params: {Bucket: awsBucketName}});
 
-    // Set the bucket object properties
-    // Key == filename
-    // Body == contents of file
-    // ACL == Should it be public? Private?
-    // ContentType == MimeType of file ie. image/jpeg.
-    var params = {
-      Key: cleanedFileName,
-      Body: file_buffer,
-      ACL: 'public-read',
-      ContentType: mimeType
-    };
+//     // Set the bucket object properties
+//     // Key == filename
+//     // Body == contents of file
+//     // ACL == Should it be public? Private?
+//     // ContentType == MimeType of file ie. image/jpeg.
+//     var params = {
+//       Key: cleanedFileName,
+//       Body: file_buffer,
+//       ACL: 'public-read',
+//       ContentType: mimeType
+//     };
 
-    // Put the above Object in the Bucket
-    s3bucket.putObject(params, function(err, data) {
-      if (err) {
-        console.log(err)
-        return;
-      } else {
-        console.log("Successfully uploaded data to s3 bucket");
+//     // Put the above Object in the Bucket
+//     s3bucket.putObject(params, function(err, data) {
+//       if (err) {
+//         console.log(err)
+//         return;
+//       } else {
+//         console.log("Successfully uploaded data to s3 bucket");
 
-        // now that we have the image
-        // we can add the s3 url our person object from above
-        personObj['imageUrl'] = s3Path + cleanedFileName;
+//         // now that we have the image
+//         // we can add the s3 url our person object from above
+//         personObj['imageUrl'] = s3Path + cleanedFileName;
 
-        // now, we can create our person instance
-        var person = new Person(personObj);
+//         // now, we can create our person instance
+//         var person = new Person(personObj);
 
-        person.save(function(err,data){
-          if(err){
-            var error = {
-              status: "ERROR",
-              message: err
-            }
-            return res.json(err)
-          }
+//         person.save(function(err,data){
+//           if(err){
+//             var error = {
+//               status: "ERROR",
+//               message: err
+//             }
+//             return res.json(err)
+//           }
 
-          var jsonData = {
-            status: "OK",
-            person: data
-          }
+//           var jsonData = {
+//             status: "OK",
+//             person: data
+//           }
 
-          return res.json(jsonData);
-        })
+//           return res.json(jsonData);
+//         })
 
-      }
+//       }
 
-    }); // end of putObject function
+//     }); // end of putObject function
 
-  });// end of read file
+//   });// end of read file
 
-})
+// })
 
 function cleanFileName (filename) {
 

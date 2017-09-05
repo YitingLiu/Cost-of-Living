@@ -1,88 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang = "en-US">
+ <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello World</title>
-
-    <!-- Custom Font - Change 'Muli' to the font you want -->
-    <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet' type='text/css'>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-    <!-- Custom CSS inside CSS folder -->
-    <link rel="stylesheet" href="css/style.css">
-
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-
-
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <h1>Let's add an ITP Person</h1>
-        <form method="post" action="/api/create" id="myForm">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Name" name="name" required>
-          </div>
-          <div class="form-group">
-            <label for="itpYear">ITP Year</label>
-            <input type="text" class="form-control" id="itpYear" placeholder="Year" name="itpYear" required>
-          </div>
-          <div class="form-group">
-            <label for="interests">Interests</label>
-            <input type="text" class="form-control" id="interests" name="interests" required>
-            <p class="help-block">Enter interests separated by comma</p>
-          </div>
-          <div class="form-group">
-            <label for="link">Link</label>
-            <input type="text" class="form-control" id="link" placeholder="Link" name="link" required>
-          </div>  
-          <div class="form-group">
-            <label for="imageUrl">ImageURL</label>
-            <input type="text" class="form-control" id="imageUrl" placeholder="imageUrl" name="imageUrl" required>
-          </div>
-            <input type="radio" name="hasGlasses" value="yes">Yes<br>
-            <input type="radio" name="hasGlasses" value="no">No                           
-          <button type="submit" class="btn btn-default">Submit</button>
-        </form> 
-      </div>
+     <meta name="viewport" content="width=device-width,initial-scale=1">
+     <title>ADD</title>
+     <link
+       rel="stylesheet"
+       href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+     <link rel = "stylesheet" type = "text/css" href = "css/styles.css" />
+ </head>
+ <body>
+    <div class="container-fluid" id="add_page">
+        <div class="row">
+            <div class="col-md-6 col-sm-12" id="left_container">
+                <form id="input_form" action="/api/create" method="POST" autocomplete="off">
+                    <div class="myRow">
+                        <div class="input_group">
+                            <input type="text" id="expense_input" name="Expense" required>
+                            <label for="expense_input">Expense</label>
+                        </div>
+                        <span></span>
+                    </div>
+                    <div class="myRow">
+                        <input type="hidden" id="category_input" name="Category" value=" " required>
+                        <div class="category">
+                            <button>
+                                <img class="img-responsive" src="img/food.png">
+                                <p>Food</p>
+                            </button>
+                        </div>
+                        <div class="category">
+                            <button>
+                                <img class="img-responsive" src="img/drink.png">
+                                <p>Drink</p>
+                            </button>
+                        </div>
+                        <div class="category">
+                            <button>
+                                <img class="img-responsive" src="img/transport.png">
+                                <p>Transport</p>
+                            </button>
+                        </div>
+                        <div class="category">
+                            <button>
+                                <img class="img-responsive" src="img/shopping.png">
+                                <p>Shopping</p>
+                            </button>
+                        </div>
+                        <div class="category">
+                            <button>
+                                <img class="img-responsive" src="img/entertainment.png">
+                                <p>Entertainment</p>
+                            </button>
+                        </div>
+                        <div class="category">
+                            <button>
+                                <img class="img-responsive" src="img/housing.png">
+                                <p>Housing</p>
+                            </button>
+                        </div>
+                        <div class="category">
+                            <button>
+                                <img class="img-responsive" src="img/digital.png">
+                                <p>Digital</p>
+                            </button>
+                        </div>
+                        <div class="category">
+                            <button>
+                                <img class="img-responsive" src="img/income.png">
+                                <p>Income</p>
+                            </button>
+                        </div>
+                        <div class="category">
+                            <button>
+                                <img class="img-responsive" src="img/medical.png">
+                                <p>Medical</p>
+                            </button>
+                        </div>
+                        <div class="category">
+                            <button>
+                                <img class="img-responsive" src="img/others.png">
+                                <p>Others</p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="myRow">
+                        <div class="input_group">
+                            <input type="text" id="name_input" name="Item" required>
+                            <label for="name_input">Name</label>
+                        </div>
+                        <span></span>
+                    </div>
+                    <div class="myRow">
+                        <div class="input_group">
+                            <input type="text" id="quantity_input" name="Quantity" required>
+                            <label for="quantity_input">Quantity</label>
+                        </div>
+                        <span></span>
+                    </div>
+                    <div id="btn_container">
+                        <input type="submit" value="Submit">
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-6 col-xs-12" id="right_container"></div>
+        </div>
     </div>
-  </div>
-  
 </body>
-
-    <!-- JQuery script -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
-
-    <!-- JQuery validate -->
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
-
-    <script type="text/javascript">
-      $("#myForm").validate({
-          rules: {
-            // compound rule
-            itpYear: {
-              required: true,
-              number: true
-            },
-            link: {
-              required: true,
-              url: true
-            }            
-          }
-
-      });
-    </script>
-
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/main.js"></script>
 </html>

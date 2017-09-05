@@ -4,11 +4,12 @@ var Schema = mongoose.Schema;
 // See http://mongoosejs.com/docs/schematypes.html
 
 var itemSchema = new Schema({
+    expense: Number,
 	name: String,
-    type: String,
+    category: String,
     quantity: Number,
-    dateAdded : { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now }
 })
 
-// export 'Person' model so we can interact with it in other files
+// export model so we can interact with it in other files
 module.exports = mongoose.model('Item',itemSchema);
