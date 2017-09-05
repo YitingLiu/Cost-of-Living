@@ -129,8 +129,8 @@ router.post('/api/create', function(req,res){
 
   var itemObj = {
     expense: req.body.Expense,   // <input name="Expense">
-    name: req.body.Item,
-    category: req.body.Category,
+    name: req.body.Item.toLowerCase(),
+    category: req.body.Category.toLowerCase(),
     quantity: req.body.Quantity,
     date: req.body.date
   }
