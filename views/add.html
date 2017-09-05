@@ -19,12 +19,12 @@
                     <div class="myRow">
                         <div class="input_group">
                             <input type="text" id="expense_input" name="Expense" required>
-                            <label for="expense_input">Expense</label>
+                            <label for="expense_input" class="myLabel">Expense</label>
                         </div>
                         <span></span>
                     </div>
                     <div class="myRow">
-                        <input type="hidden" id="category_input" name="Category" value=" " required>
+                        <input type="hidden" id="category_input" name="Category" required>
                         <div class="category">
                             <button>
                                 <img class="img-responsive" src="img/food.png">
@@ -89,19 +89,19 @@
                     <div class="myRow">
                         <div class="input_group">
                             <input type="text" id="name_input" name="Item" required>
-                            <label for="name_input">Name</label>
+                            <label for="name_input" class="myLabel">Name</label>
                         </div>
                         <span></span>
                     </div>
                     <div class="myRow">
                         <div class="input_group">
                             <input type="text" id="quantity_input" name="Quantity" required>
-                            <label for="quantity_input">Quantity</label>
+                            <label for="quantity_input" class="myLabel">Quantity</label>
                         </div>
                         <span></span>
                     </div>
                     <div id="btn_container">
-                        <input type="submit" value="Submit">
+                    <input type="submit" value="Submit">
                     </div>
                 </form>
             </div>
@@ -114,4 +114,43 @@
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
       crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/main.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $("#input_form").validate({
+            onkeyup: false,
+            onclick: false,
+            onfocusout: false,
+
+            rules: {
+                Expense: {
+                  required: true,
+                  number: true
+                },
+                Category: "required",
+                Item: "required",
+                Quantity: {
+                    required:true,
+                    number:true
+                }
+            },
+
+            messages: {
+                Expense: {
+                    required: '',
+                    number:''
+                },
+                Item: {
+                    required: ''
+                },
+                Quantity: {
+                    required: '',
+                    number:''
+                }
+            }
+        });
+
+        $("input_form").click(function(){
+            return false;
+        })
+    </script>
 </html>

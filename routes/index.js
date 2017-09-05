@@ -128,10 +128,10 @@ router.post('/api/create', function(req,res){
   console.log(req.body);
 
   var itemObj = {
-    expense: req.body.expense,
-    name: req.body.name,
-    category: req.body.category,
-    quantity: req.body.quantity,
+    expense: req.body.Expense,   // <input name="Expense">
+    name: req.body.Item,
+    category: req.body.Category,
+    quantity: req.body.Quantity,
     date: req.body.date
   }
 

@@ -26,12 +26,11 @@
 
 .myRow {
     overflow: hidden;
-    padding-top:10px;
+    padding-top:2vh;
 }
 
 #btn_container{
-    position: relative;
-    top:-50px;
+    padding-top: 4vh;
 }
 
 #btn_container input{
@@ -42,17 +41,22 @@
     color:#fff;
     font-size: 20px;
     border: none;
+    box-shadow: 0 2px 8px 0 #FF634E;
+}
+
+#btn_container input:hover {
+    box-shadow: 0 1px 4px 0 #FF634E;
 }
 
 input:focus {
   outline: none;
 }
 
-
 /* input ****************************** */
+
 .input_group {
     width: 100%;
-    height: 100px;
+    height: 10vh;
 }
 
 .input_group input{
@@ -60,7 +64,7 @@ input:focus {
     background:none;
     border: none;
     border-bottom: 1px solid #5F7FA8;
-    height: 40px;
+    height: 8vh;
 
     -webkit-transition:.5s ease;
     transition: .5s ease;
@@ -77,8 +81,8 @@ input:focus {
     transition: .5s ease;
 }
 
-.input_group input:focus + label,
-.input_group input:valid + label {
+.input_group input:focus ~ label.myLabel,
+.input_group input:valid ~ label.myLabel {
     position: relative;
     top:-55px;
     font-size: 16px;
@@ -87,9 +91,9 @@ input:focus {
 .input_group + span {
     display: block;
     width: 0px;
-    height: 3px;
+    height: 0.5vh;
     position: relative;
-    top: -63px;
+    top: -2.5vh;
     background-color: #5F7FA8;
     -webkit-transition:.5s ease;
     transition: .5s ease;
@@ -104,11 +108,16 @@ input:focus {
     height: auto;
 }
 
+/*.input_group label.error {
+    position: absolute;
+    top:100px;
+    color: red;
+}*/
 
- /*-------------5 columns-------------*/
+ /*-------------5 columns category-------------*/
 .category {
     width: 20%;
-    padding:15px;
+    padding:10px;
     float: left;
     text-align: center;
 

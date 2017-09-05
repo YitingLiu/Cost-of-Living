@@ -9,13 +9,6 @@ $(".input_group input").focusout(function(){
 $(".category button").click(function(){
     $(this).parent().addClass("selected");
     $(this).parent().siblings().removeClass("selected");
-})
 
-
-$("#input_form").submit(function(){
-    // var x=$("#expense_input").val();
-
-    // category_input
-    // name_input
-    // quantity_input
+    $("#category_input").val($(this).find("p").text());
 })
