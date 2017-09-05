@@ -88,6 +88,12 @@ input:focus {
     font-size: 16px;
 }
 
+.input_group label.small {
+    position: relative;
+    top:-55px;
+    font-size: 16px;
+}
+
 .input_group + span {
     display: block;
     width: 0px;

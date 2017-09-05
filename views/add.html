@@ -95,8 +95,8 @@
                     </div>
                     <div class="myRow">
                         <div class="input_group">
-                            <input type="text" id="quantity_input" name="Quantity" required>
-                            <label for="quantity_input" class="myLabel">Quantity</label>
+                            <input type="text" id="quantity_input" name="Quantity">
+                            <label for="quantity_input" id="quantity_label">Quantity</label>
                         </div>
                         <span></span>
                     </div>
@@ -129,7 +129,6 @@
                 Category: "required",
                 Item: "required",
                 Quantity: {
-                    required:true,
                     number:true
                 }
             },
@@ -143,7 +142,6 @@
                     required: ''
                 },
                 Quantity: {
-                    required: '',
                     number:''
                 }
             }
