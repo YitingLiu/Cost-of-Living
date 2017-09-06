@@ -8,10 +8,11 @@ $(".input_group input").focusout(function(){
 })
 
 //select category, then send to input value
-$(".category button").click(function(){
-    $(this).parent().addClass("selected");
-    $(this).parent().siblings().removeClass("selected");
+$(".category").click(function(){
+    $(".category").removeClass("selected");
+    $(this).addClass("selected");
 
+    console.log($(this).find("p").text());
     $("#category_input").val($(this).find("p").text());
 })
 
@@ -23,4 +24,3 @@ $(".input_group #quantity_input").focus(function(){
 $(".input_group #quantity_input").focusout(function(){
     if($(this).val()=='') $(this).next().removeClass("small");
 });
-

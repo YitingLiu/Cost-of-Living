@@ -3,31 +3,108 @@
     font-weight: 300;
 }
 
-#add_page {
-    height: 100vh;
-    width:100vw;
-    overflow: hidden;
-}
-
-.row {
-    height: 100%;
+body {
+    /*overflow: hidden;*/
 }
 
 #left_container {
     background-color: #FBEFE1;
-    height: 100%;
+    min-height: 100vh;
     padding: 20px;
 }
 
 #right_container {
     background-color: #F6E7D5;
-    height: 100%;
+    /*min-height: 100vh;*/
 }
 
-.myRow {
-    overflow: hidden;
-    padding-top:2vh;
+
+input:focus {
+  outline: none;
 }
+
+/* input ****************************** */
+
+.input_group {
+    width: 100%;
+    height: 10vh;
+    padding-top: 5vh;
+}
+
+.input_group input{
+    width: 100%;
+    background:none;
+    border: none;
+    border-bottom: 1px solid #5F7FA8;
+    /*height: 8vh;*/
+
+    -webkit-transition:.5s ease;
+    transition: .5s ease;
+}
+
+.input_group label {
+    position: relative;
+    top:-35px;
+    margin: auto;
+    font-size: 24px;
+    color:#5F7FA8;
+
+    -webkit-transition:.5s ease;
+    transition: .5s ease;
+}
+
+.input_group input:focus ~ label.myLabel,
+.input_group input:valid ~ label.myLabel {
+    position: relative;
+    top:-45px;
+    font-size: 16px;
+}
+
+.input_group label.small {
+    position: relative;
+    top:-45px;
+    font-size: 16px;
+}
+
+.input_group + span {
+    display: block;
+    width: 0px;
+    height: 0.5vh;
+    position: relative;
+    top: -1vh;
+    background-color: #5F7FA8;
+    -webkit-transition:.5s ease;
+    transition: .5s ease;
+}
+
+.input_group + span.input_highlight {
+    width: 100%;
+}
+
+.category {
+    -webkit-transition:.5s ease;
+    transition: .5s ease;
+    text-align:center;
+}
+
+/*.category img {
+    -webkit-filter: grayscale(70%);
+    filter: grayscale(70%);
+}*/
+
+.category.selected {
+    background-color:#F6E7D5;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+}
+
+/*.category.selected img {
+    filter:none;
+}*/
+.category p {
+    font-size: 13px;
+    color:#5F7FA8;
+}
+
 
 #btn_container{
     padding-top: 4vh;
@@ -48,103 +125,27 @@
     box-shadow: 0 1px 4px 0 #FF634E;
 }
 
-input:focus {
-  outline: none;
+
+
+/*// Extra small devices (portrait phones, less than 576px)
+// No media query since this is the default in Bootstrap*/
+
+/*// Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+
 }
 
-/* input ****************************** */
+/*// Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
 
-.input_group {
-    width: 100%;
-    height: 10vh;
 }
 
-.input_group input{
-    width: 100%;
-    background:none;
-    border: none;
-    border-bottom: 1px solid #5F7FA8;
-    height: 8vh;
+/*// Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
 
-    -webkit-transition:.5s ease;
-    transition: .5s ease;
 }
 
-.input_group label {
-    position: relative;
-    top:-35px;
-    margin: auto;
-    font-size: 24px;
-    color:#5F7FA8;
+/*// Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
 
-    -webkit-transition:.5s ease;
-    transition: .5s ease;
-}
-
-.input_group input:focus ~ label.myLabel,
-.input_group input:valid ~ label.myLabel {
-    position: relative;
-    top:-55px;
-    font-size: 16px;
-}
-
-.input_group label.small {
-    position: relative;
-    top:-55px;
-    font-size: 16px;
-}
-
-.input_group + span {
-    display: block;
-    width: 0px;
-    height: 0.5vh;
-    position: relative;
-    top: -2.5vh;
-    background-color: #5F7FA8;
-    -webkit-transition:.5s ease;
-    transition: .5s ease;
-}
-
-.input_group + span.input_highlight {
-    width: 100%;
-}
-
-.img-responsive {
-    width: 100%;
-    height: auto;
-}
-
-/*.input_group label.error {
-    position: absolute;
-    top:100px;
-    color: red;
-}*/
-
- /*-------------5 columns category-------------*/
-.category {
-    width: 20%;
-    padding:10px;
-    float: left;
-    text-align: center;
-
-    -webkit-transition:.5s ease;
-    transition: .5s ease;
-}
-
-.category.selected {
-    background-color:#F6E7D5;
-}
-
-.category p {
-    margin-top: 10px;
-    margin-bottom: 0px;
-    font-size: 13px;
-}
-
-.category button {
-    background:none;
-    outline:none;
-    border: none;
-    padding: 0;
-    margin: 0;
 }

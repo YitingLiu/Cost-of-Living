@@ -2,110 +2,133 @@
 <html lang = "en-US">
  <head>
     <meta charset="utf-8">
-     <meta name="viewport" content="width=device-width,initial-scale=1">
-     <title>ADD</title>
-     <link
-       rel="stylesheet"
-       href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
-     <link rel = "stylesheet" type = "text/css" href = "css/styles.css" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ADD</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <link rel = "stylesheet" type = "text/css" href = "css/styles.css" />
  </head>
  <body>
     <div class="container-fluid" id="add_page">
         <div class="row">
-            <div class="col-md-6 col-sm-12" id="left_container">
+            <div class="col-lg-6 col-12" id="left_container">
                 <form id="input_form" action="/api/create" method="POST" autocomplete="off">
-                    <div class="myRow">
-                        <div class="input_group">
-                            <input type="text" id="expense_input" name="Expense" required>
-                            <label for="expense_input" class="myLabel">Expense</label>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input_group">
+                                <input type="text" id="expense_input" name="Expense" required>
+                                <label for="expense_input" class="myLabel">Expense</label>
+                            </div>
+                            <span></span>
                         </div>
-                        <span></span>
                     </div>
-                    <div class="myRow">
-                        <input type="hidden" id="category_input" name="Category" required>
-                        <div class="category">
-                            <button>
-                                <img class="img-responsive" src="img/food.png">
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="hidden" id="category_input" name="Category" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 col-md-2">
+                            <div class="category">
+                                <img class="img-fluid" src="img/food.png">
                                 <p>Food</p>
-                            </button>
+                            </div>
                         </div>
-                        <div class="category">
-                            <button>
-                                <img class="img-responsive" src="img/drink.png">
+                        <div class="col-3 col-md-2">
+                            <div class="category">
+                                <img class="img-fluid" src="img/drink.png">
                                 <p>Drink</p>
-                            </button>
+                            </div>
                         </div>
-                        <div class="category">
-                            <button>
-                                <img class="img-responsive" src="img/transport.png">
+                        <div class="col-3 col-md-2">
+                            <div class="category">
+                                <img class="img-fluid" src="img/transport.png">
                                 <p>Transport</p>
-                            </button>
+                            </div>
                         </div>
-                        <div class="category">
-                            <button>
-                                <img class="img-responsive" src="img/shopping.png">
+                        <div class="col-3 col-md-2">
+                            <div class="category">
+                                <img class="img-fluid" src="img/shopping.png">
                                 <p>Shopping</p>
-                            </button>
+                            </div>
                         </div>
-                        <div class="category">
-                            <button>
-                                <img class="img-responsive" src="img/entertainment.png">
-                                <p>Recreation</p>
-                            </button>
+                        <div class="col-3 col-md-2">
+                            <div class="category">
+                                <img class="img-fluid" src="img/health.png">
+                                <p>Health</p>
+                            </div>
                         </div>
-                        <div class="category">
-                            <button>
-                                <img class="img-responsive" src="img/housing.png">
+                        <div class="col-3 col-md-2">
+                            <div class="category">
+                                <img class="img-fluid" src="img/beauty.png">
+                                <p>Beauty</p>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-2">
+                            <div class="category">
+                                <img class="img-fluid" src="img/housing.png">
                                 <p>Housing</p>
-                            </button>
+                            </div>
                         </div>
-                        <div class="category">
-                            <button>
-                                <img class="img-responsive" src="img/digital.png">
-                                <p>Digital</p>
-                            </button>
-                        </div>
-                        <div class="category">
-                            <button>
-                                <img class="img-responsive" src="img/income.png">
+                        <div class="col-3 col-md-2">
+                            <div class="category">
+                                <img class="img-fluid" src="img/income.png">
                                 <p>Income</p>
-                            </button>
+                            </div>
                         </div>
-                        <div class="category">
-                            <button>
-                                <img class="img-responsive" src="img/medical.png">
-                                <p>Medical</p>
-                            </button>
+                        <div class="col-3 col-md-2">
+                            <div class="category">
+                                <img class="img-fluid" src="img/digital.png">
+                                <p>Digital</p>
+                            </div>
                         </div>
-                        <div class="category">
-                            <button>
-                                <img class="img-responsive" src="img/others.png">
+                        <div class="col-3 col-md-2">
+                            <div class="category">
+                                <img class="img-fluid" src="img/entertainment.png">
+                                <p>Entertainment</p>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-2">
+                            <div class="category">
+                                <img class="img-fluid" src="img/personal development.png">
+                                <p>Personal Development</p>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-2">
+                            <div class="category">
+                                <img class="img-fluid" src="img/others.png">
                                 <p>Others</p>
-                            </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="myRow">
-                        <div class="input_group">
-                            <input type="text" id="name_input" name="Item" required>
-                            <label for="name_input" class="myLabel">Name</label>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input_group">
+                                <input type="text" id="name_input" name="Item" required>
+                                <label for="name_input" class="myLabel">Name</label>
+                            </div>
+                            <span></span>
                         </div>
-                        <span></span>
                     </div>
-                    <div class="myRow">
-                        <div class="input_group">
-                            <input type="text" id="quantity_input" name="Quantity">
-                            <label for="quantity_input" id="quantity_label">Quantity</label>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input_group">
+                                <input type="text" id="quantity_input" name="Quantity">
+                                <label for="quantity_input" id="quantity_label">Quantity</label>
+                            </div>
+                            <span></span>
                         </div>
-                        <span></span>
                     </div>
-                    <div id="btn_container">
-                    <input type="submit" value="Submit">
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="btn_container">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
-            <div class="col-sm-6 col-xs-12" id="right_container"></div>
+            <div class="col-lg-6 hidden-md-down" id="right_container"></div>
         </div>
     </div>
 </body>
