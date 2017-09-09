@@ -29,12 +29,12 @@ var multipartMiddleware = multipart();
  */
 router.get('/', function(req, res) {
 
-  console.log('home page requested!');
+  // console.log('home page requested!');
 
-  var jsonData = {
-  	'name': 'item-directory',
-  	'api-status':'OK'
-  }
+  // var jsonData = {
+  // 	'name': 'item-directory',
+  // 	'api-status':'OK'
+  // }
 
   // respond with json data
   //res.json(jsonData)
@@ -43,7 +43,7 @@ router.get('/', function(req, res) {
   //res.redirect('/directory')
 
   // respond with html
-  res.render('test.html')
+  res.render('home.html')
 
 });
 

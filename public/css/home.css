@@ -1,0 +1,28 @@
+body {
+    background-color:#FBEFE1;
+    overflow: hidden;
+}
+
+.row {
+    position: absolute;
+    width: 100%
+}
+
+#graphic_container {
+    height: 70vh;
+    padding-top: 10vh;
+}
+
+#graphic_container img {
+    position: absolute;
+    opacity: 0;
+}
+
+#btn_container {
+    position: absolute;
+    bottom: 0;
+    height: 25vh;
+}
+
+#btn_conatainer .col-12 {
+}
