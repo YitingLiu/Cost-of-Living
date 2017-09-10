@@ -17,9 +17,9 @@ var UnitPrice = require("../models/unitPrice.js");
 // var s3 = new AWS.S3();
 
 // file processing dependencies
-var fs = require('fs');
-var multipart = require('connect-multiparty');
-var multipartMiddleware = multipart();
+// var fs = require('fs');
+// var multipart = require('connect-multiparty');
+// var multipartMiddleware = multipart();
 
 /**
  * GET '/'
@@ -120,6 +120,37 @@ router.post('/unitprice/create', function(req,res){
 
     // return res.redirect('/results');
         return res.json(jsonData);
+
+  })
+
+})
+
+
+router.get('/analytics', function(req,res){
+
+  res.render('analytics.html')
+
+})
+
+
+router.get('/item/get', function(req,res){
+
+  Item.find(function(err,data){
+
+      if(err){
+        var error = {
+          status: "ERROR",
+          message: err
+        }
+        return res.json(err)
+      }
+
+      var jsonData = {
+        status: "OK",
+        item: data
+      }
+
+      return res.json(jsonData);
 
   })
 

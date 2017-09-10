@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Analytics</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:100,300|Open+Sans:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cinzel" rel="stylesheet">
+    <link rel = "stylesheet" type = "text/css" href = "css/analytics.css" />
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar fixed-top">
+            <h1>Analytics</h1>
+            <div id="nav_btn_container">
+                <input type="button" value="+New Record" onclick="msg()">
+                <input type="button" value="Comparison" onclick="msg()">
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav" id="year">
+                    <li class="nav-item">2016</li>
+                    <li class="nav-item active">2017</li>
+                </ul>
+            </div>
+            <div class="col-12">
+                <ul class="nav" id="month">
+                    <li class="nav-item active">All</li>
+                    <li class="nav-item">Jan</li>
+                    <li class="nav-item">Feb</li>
+                    <li class="nav-item">Mar</li>
+                    <li class="nav-item">Apr</li>
+                    <li class="nav-item">May</li>
+                    <li class="nav-item">Jun</li>
+                    <li class="nav-item">Jul</li>
+                    <li class="nav-item">Aug</li>
+                    <li class="nav-item">Sep</li>
+                    <li class="nav-item">Oct</li>
+                    <li class="nav-item">Nov</li>
+                    <li class="nav-item">Dec</li>
+                </ul>
+            </div>
+            <div class="col-12" id="bar_chart"></div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="js/analytics.js"></script>
+</body>
+</html>
