@@ -1,177 +1,161 @@
 <!DOCTYPE html>
 <html lang = "en-US">
- <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>ADD</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
-    <link rel = "stylesheet" type = "text/css" href = "css/styles.css" />
- </head>
- <body>
-    <div class="container-fluid" id="add_page">
-        <div class="row">
-            <div class="col-lg-6 col-12" id="left_container">
-                <form id="input_form" action="/api/create" method="POST" autocomplete="off">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="input_group">
-                                <input type="text" id="expense_input" name="Expense" required>
-                                <label for="expense_input" class="myLabel">Expense</label>
-                            </div>
-                            <span></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <input type="hidden" id="category_input" name="Category" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3 col-md-2">
-                            <div class="category">
-                                <img class="img-fluid" src="img/food.png">
-                                <p>Food</p>
-                            </div>
-                        </div>
-                        <div class="col-3 col-md-2">
-                            <div class="category">
-                                <img class="img-fluid" src="img/drink.png">
-                                <p>Drink</p>
-                            </div>
-                        </div>
-                        <div class="col-3 col-md-2">
-                            <div class="category">
-                                <img class="img-fluid" src="img/transport.png">
-                                <p>Transport</p>
-                            </div>
-                        </div>
-                        <div class="col-3 col-md-2">
-                            <div class="category">
-                                <img class="img-fluid" src="img/shopping.png">
-                                <p>Shopping</p>
-                            </div>
-                        </div>
-                        <div class="col-3 col-md-2">
-                            <div class="category">
-                                <img class="img-fluid" src="img/health.png">
-                                <p>Health</p>
-                            </div>
-                        </div>
-                        <div class="col-3 col-md-2">
-                            <div class="category">
-                                <img class="img-fluid" src="img/beauty.png">
-                                <p>Beauty</p>
-                            </div>
-                        </div>
-                        <div class="col-3 col-md-2">
-                            <div class="category">
-                                <img class="img-fluid" src="img/housing.png">
-                                <p>Housing</p>
-                            </div>
-                        </div>
-                        <div class="col-3 col-md-2">
-                            <div class="category">
-                                <img class="img-fluid" src="img/income.png">
-                                <p>Income</p>
-                            </div>
-                        </div>
-                        <div class="col-3 col-md-2">
-                            <div class="category">
-                                <img class="img-fluid" src="img/digital.png">
-                                <p>Digital</p>
-                            </div>
-                        </div>
-                        <div class="col-3 col-md-2">
-                            <div class="category">
-                                <img class="img-fluid" src="img/entertainment.png">
-                                <p>Entertainment</p>
-                            </div>
-                        </div>
-                        <div class="col-3 col-md-2">
-                            <div class="category">
-                                <img class="img-fluid" src="img/personal development.png">
-                                <p>Personal Development</p>
-                            </div>
-                        </div>
-                        <div class="col-3 col-md-2">
-                            <div class="category">
-                                <img class="img-fluid" src="img/others.png">
-                                <p>Others</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="input_group">
-                                <input type="text" id="name_input" name="Item" required>
-                                <label for="name_input" class="myLabel">Name</label>
-                            </div>
-                            <span></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="input_group">
-                                <input type="text" id="quantity_input" name="Quantity">
-                                <label for="quantity_input" id="quantity_label">Quantity</label>
-                            </div>
-                            <span></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div id="btn_container">
-                                <input type="submit" value="Submit">
-                            </div>
-                        </div>
-                    </div>
-                </form>
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:100,300|Open+Sans:300" rel="stylesheet">
+    <link rel = "stylesheet" type = "text/css" href = "css/add.css" />
+</head>
+<body>
+    <div class="container" id="add_page">
+        <form id="input_form" action="/item/create" method="POST" autocomplete="off">
+            <div class="row input_container">
+                <div class="col-12">
+                    <label for="expense_input" class="myLabel">Expense</label>
+                    <input type="text" id="expense_input" name="Expense" required>
+                </div>
             </div>
-            <div class="col-lg-6 hidden-md-down" id="right_container"></div>
-        </div>
+            <div class="row category_container">
+                <div class="col-12">
+                    <input type="hidden" id="category_input" name="Category" required>
+                </div>
+                <div class="col-3 col-md-2">
+                    <div class="category">
+                        <img class="img-fluid" src="img/add/food.png">
+                        <p>Food</p>
+                    </div>
+                </div>
+                <div class="col-3 col-md-2">
+                    <div class="category">
+                        <img class="img-fluid" src="img/add/drink.png">
+                        <p>Drink</p>
+                    </div>
+                </div>
+                <div class="col-3 col-md-2">
+                    <div class="category">
+                        <img class="img-fluid" src="img/add/transport.png">
+                        <p>Transport</p>
+                    </div>
+                </div>
+                <div class="col-3 col-md-2">
+                    <div class="category">
+                        <img class="img-fluid" src="img/add/shopping.png">
+                        <p>Shopping</p>
+                    </div>
+                </div>
+                <div class="col-3 col-md-2">
+                    <div class="category">
+                        <img class="img-fluid" src="img/add/health.png">
+                        <p>Health</p>
+                    </div>
+                </div>
+                <div class="col-3 col-md-2">
+                    <div class="category">
+                        <img class="img-fluid" src="img/add/beauty.png">
+                        <p>Beauty</p>
+                    </div>
+                </div>
+                <div class="col-3 col-md-2">
+                    <div class="category">
+                        <img class="img-fluid" src="img/add/housing.png">
+                        <p>Housing</p>
+                    </div>
+                </div>
+                <div class="col-3 col-md-2">
+                    <div class="category">
+                        <img class="img-fluid" src="img/add/income.png">
+                        <p>Income</p>
+                    </div>
+                </div>
+                <div class="col-3 col-md-2">
+                    <div class="category">
+                        <img class="img-fluid" src="img/add/digital.png">
+                        <p>Digital</p>
+                    </div>
+                </div>
+                <div class="col-3 col-md-2">
+                    <div class="category">
+                        <img class="img-fluid" src="img/add/entertainment.png">
+                        <p>Recreation</p>
+                    </div>
+                </div>
+                <div class="col-3 col-md-2">
+                    <div class="category">
+                        <img class="img-fluid" src="img/add/personal development.png">
+                        <p>Learning</p>
+                    </div>
+                </div>
+                <div class="col-3 col-md-2">
+                    <div class="category">
+                        <img class="img-fluid" src="img/add/others.png">
+                        <p>Others</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row input_container">
+                <div class="col-12">
+                    <label for="name_input" class="myLabel">Name</label>
+                    <input type="text" id="name_input" name="Item" required>
+                </div>
+            </div>
+            <div class="row input_container">
+                <div class="col-12">
+                    <label for="quantity_input" class="myLabel">Quantity (optional)</label>
+                    <input type="text" id="quantity_input" name="Quantity">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="btn_container">
+                        <input type="submit" value="Submit">
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </body>
-    <script
-      src="https://code.jquery.com/jquery-3.2.1.min.js"
-      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-      crossorigin="anonymous"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script src="js/jquery.validate.min.js"></script>
-    <script type="text/javascript">
-        $("#input_form").validate({
-            onkeyup: false,
-            onclick: false,
-            onfocusout: false,
+<script
+src="https://code.jquery.com/jquery-3.2.1.min.js"
+integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+crossorigin="anonymous"></script>
+<script type="text/javascript" src="js/add.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+<script type="text/javascript">
+    $("#input_form").validate({
+        // onkeyup: false,
+        // onclick: false,
+        // onfocusout: false,
 
-            rules: {
-                Expense: {
-                  required: true,
-                  number: true
-                },
-                Category: "required",
-                Item: "required",
-                Quantity: {
-                    number:true
-                }
+        rules: {
+            Expense: {
+              required: true,
+              number: true
             },
+            Category: "required",
+            Item: "required",
+            Quantity: {
+                // number:true
+        }
+    },
 
-            messages: {
-                Expense: {
-                    required: '',
-                    number:''
-                },
-                Item: {
-                    required: ''
-                },
-                Quantity: {
-                    number:''
-                }
-            }
-        });
+    // messages: {
+    //     Expense: {
+    //         required: '',
+    //         number:''
+    //     },
+    //     Item: {
+    //         required: ''
+    //     },
+    //     Quantity: {
+    //         number:'Please enter a number.'
+    //     }
+    // }
+});
 
-        $("input_form").click(function(){
-            return false;
-        })
-    </script>
+    $("input_form").click(function(){
+        return false;
+    })
+</script>
 </html>

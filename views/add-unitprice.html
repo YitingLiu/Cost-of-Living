@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang = "en-US">
+ <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ADD UNIT PRICE</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+    <link rel = "stylesheet" type = "text/css" href = "css/styles.css" />
+ </head>
+ <body>
+    <div class="container-fluid" id="add_page">
+        <div class="row">
+            <div class="col-lg-6 col-12" id="left_container">
+                <form id="input_form" action="/unitprice/create" method="POST">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="input_group">
+                                <input type="text" id="name_input" name="Item" required>
+                                <label for="item_input" class="myLabel">Name</label>
+                            </div>
+                            <span></span>
+                        </div>
+                        <div class="col-12">
+                            <div class="input_group">
+                                <input type="text" id="suzhou_input" name="suzhou" required>
+                                <label for="suzhou_input" class="myLabel">Suzhou</label>
+                            </div>
+                            <span></span>
+                        </div>
+                        <div class="col-12">
+                            <div class="input_group">
+                                <input type="text" id="nyc_input" name="nyc" required>
+                                <label for="nyc_input" class="myLabel">NYC</label>
+                            </div>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="btn_container">
+                                <input type="submit" value="Submit">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $("#input_form").validate({
+            onkeyup: false,
+            onclick: false,
+            onfocusout: false,
+
+            rules: {
+                Item: "required",
+                suzhou: {
+                    required:true,
+                    number:true
+                },
+                nyc: {
+                    required:true,
+                    number:true
+                }
+            },
+
+            messages: {
+                Item: {
+                    required: ''
+                },
+                suzhou: {
+                    required: '',
+                    number:''
+                },
+                nyc: {
+                    required: '',
+                    number:''
+                }
+            }
+        });
+
+        $("input_form").click(function(){
+            return false;
+        })
+    </script>
+</html>

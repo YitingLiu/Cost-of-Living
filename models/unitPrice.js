@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var unitPriceSchema = new Schema({
 	name: String,
     suzhou: Number,
-    NYC: Number
+    nyc: Number
 })
 
 // export model so we can interact with it in other files

@@ -51,81 +51,16 @@ router.get('/add', function(req,res){
 
   res.render('add.html')
 
-})
+});
 
-router.get('/directory', function(req,res){
+router.get('/add-unitprice',function(req,res){
 
-  res.render('directory.html')
+  res.render('add-unitprice.html')
 
-})
+});
 
-
-router.get('/edit/:id', function(req,res){
-
-  var requestedId = req.params.id;
-
-  Person.findById(requestedId,function(err,data){
-    if(err){
-      var error = {
-        status: "ERROR",
-        message: err
-      }
-      return res.json(err)
-    }
-
-    console.log(data);
-
-    var viewData = {
-      pageTitle: "Edit " + data.name,
-      person: data
-    }
-
-    res.render('edit.html',viewData);
-
-  })
-
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-router.get('/edit/:id', function(req,res){
-
-  var requestedId = req.params.id;
-
-  Person.findById(requestedId,function(err,data){
-    if(err){
-      var error = {
-        status: "ERROR",
-        message: err
-      }
-      return res.json(err)
-    }
-
-    var viewData = {
-      status: "OK",
-      person: data
-    }
-
-    return res.render('edit.html',viewData);
-  })
-
-})
-
-
-router.post('/api/create', function(req,res){
-
-  console.log(req.body);
+//<form id="input_form" action="/item/create" method="POST">
+router.post('/item/create', function(req,res){
 
   var itemObj = {
     expense: req.body.Expense,   // <input name="Expense">
@@ -154,6 +89,102 @@ router.post('/api/create', function(req,res){
     // return res.redirect('/results');
         return res.json(jsonData);
 
+  })
+
+})
+
+//<form id="input_form" action="/unitprice/create" method="POST">
+router.post('/unitprice/create', function(req,res){
+
+  var unitpriceObj = {
+    name: req.body.Item.toLowerCase(),   // <input name="Item">
+    suzhou: req.body.suzhou,
+    nyc: req.body.nyc,
+  }
+
+  var unitprice = new UnitPrice(unitpriceObj);
+
+  unitprice.save(function(err,data){
+    if(err){
+      var error = {
+        status: "ERROR",
+        message: err
+      }
+      return res.json(err)
+    }
+
+    var jsonData = {
+      status: "OK",
+      item: data
+    }
+
+    // return res.redirect('/results');
+        return res.json(jsonData);
+
+  })
+
+})
+
+
+
+
+
+
+
+
+
+
+router.get('/directory', function(req,res){
+
+  res.render('directory.html')
+
+})
+
+router.get('/edit/:id', function(req,res){
+
+  var requestedId = req.params.id;
+
+  Person.findById(requestedId,function(err,data){
+    if(err){
+      var error = {
+        status: "ERROR",
+        message: err
+      }
+      return res.json(err)
+    }
+
+    console.log(data);
+
+    var viewData = {
+      pageTitle: "Edit " + data.name,
+      person: data
+    }
+
+    res.render('edit.html',viewData);
+
+  })
+
+})
+
+router.get('/edit/:id', function(req,res){
+
+  var requestedId = req.params.id;
+
+  Person.findById(requestedId,function(err,data){
+    if(err){
+      var error = {
+        status: "ERROR",
+        message: err
+      }
+      return res.json(err)
+    }
+
+    var viewData = {
+      status: "OK",
+      person: data
+    }
+
+    return res.render('edit.html',viewData);
   })
 
 })
