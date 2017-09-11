@@ -38,8 +38,7 @@ function init(){
 }
 
 function getData(){
-    console.log("get data!")
-    var display_items=[];
+    var items_filter_year=[];
     jQuery.ajax({
         url : '/item/get',
         dataType : 'json',
@@ -47,16 +46,21 @@ function getData(){
             var items = response.item;
             items.forEach(function(e){
                 var y=e.date.slice(0,4);
-                if(y==display_year) display_items.push(e);
+                if(y==display_year) items_filter_year.push(e);
             });
 
+            var items_filter_month=[];
             if(display_month=="all"){
-                //render barchart by month
-                renderBarMonth(display_items);
+                items_filter_month = items_filter_year;
             } else {
                 //render barchart by day)
-                renderBarDay(display_items);
+                items_filter_year.forEach(function(e){
+                    var m=e.date.slice(5,7);
+                    if(m==convertMonth(display_month)) items_filter_month.push(e);
+                });
             }
+            renderBarChart(items_filter_month);
+
             // console.log(item[0].date.slice(0,4));
             // for(var i=0;i<people.length;i++){
             //     var htmlToAdd = '<div class="col-md-4">'+
@@ -75,18 +79,15 @@ function getData(){
     })
 }
 
-function renderBarMonth(itms){
-    var bardata=[0,0,0,0,0,0,0,0,0,0,0,0];
-    itms.forEach(function(e){
-        var m=e.date.slice(5,7);
-        bardata[m-1]+=e.expense;
-    })
-    console.log(bardata);
+function renderBarChart(items){
+    var bardataObj=new barObj(items);
+    var bardata=bardataObj.data;
     var height=210;
     var width=$('.container').width();
-    var bandWidth=(width-11)/12;
+    var bandWidth=(width-bardata.length+1)/bardata.length;
     var height_background=260;
     var extend_on_hover=10;
+    var easeCurve =d3.easePoly;
 
     var chart_holder=d3.select('#bar_chart').append('svg')
                         .attr('width',width)
@@ -129,11 +130,12 @@ function renderBarMonth(itms){
                 .on('mouseout',function(d,i){
                     barchartMouseOutEffect(d,i);
                 });
+
     chart.transition()
-        .duration(1000)
-        .ease(d3.easeBounceOut)
+        .duration(500)
+        .ease(easeCurve)
         .delay(function(d,i){
-            return i*50;
+            return i*20;
         })
         .attr('height',function(d){
             return yScale(d);
@@ -160,7 +162,7 @@ function renderBarMonth(itms){
         });
 
 // bar chart month label
-var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Otc','Nov','Dec'];
+var label=bardataObj.label;
     chart_holder.append('text')
         .attr('class','label')
         .attr('id',function(d,i){
@@ -171,26 +173,29 @@ var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Otc','Nov','D
         })
         .attr('y',34)
         .text(function(d,i){
-            return months[i];
+            return label[i];
         });
-
-
-
 
     function barchartMouseOverEffect(d,i){
         d3.select('#rect'+i)
             .transition()
+                .ease(easeCurve)
+                .duration(500)
             .style('opacity','1')
             .attr('height',height_background+extend_on_hover)
             .attr('y',0);
         d3.select('#text'+i)
             .transition()
+                .ease(easeCurve)
+                .duration(500)
             .attr('class','expense')
             .attr('y',function(d){
                 return height_background+extend_on_hover-yScale(d)-10;
             });
         d3.select('#label'+i)
             .transition()
+                .ease(easeCurve)
+                .duration(500)
             .attr('y',24)
             .style('fill','#000')
     }
@@ -198,23 +203,70 @@ var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Otc','Nov','D
     function barchartMouseOutEffect(d,i){
         d3.select('#rect'+i)
             .transition()
+                .ease(easeCurve)
+                .duration(500)
             .style('opacity','.5')
             .attr('height',height_background)
             .attr('y',extend_on_hover);
         d3.select('#text'+i)
             .transition()
+                .ease(easeCurve)
+                .duration(500)
             .attr('class','hidden')
             .attr('y',function(d){
                 return height_background+extend_on_hover-yScale(d);
             })
         d3.select('#label'+i)
             .transition()
+                .ease(easeCurve)
+                .duration(500)
             .attr('y',34)
             .style('fill','#fff')
 
     }
 }
 
-function renderBarDay(itms){
+var barObj=function(items){
+    var data=[];
+    var label=[];
+    if(display_month=='all') {
+        for(var i=0;i<12;i++) data.push(0);
+        items.forEach(function(e){
+            var m=e.date.slice(5,7);
+            data[m-1]+=e.expense;
+        })
+        label=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    } else {
+        var length=new Date(display_year,convertMonth(display_month),0).getDate();
+        for(var i=0;i<length;i++) {
+            data.push(0);
+            label.push(i+1);
+        }
+        items.forEach(function(e){
+            var d=e.date.slice(8,10);
+            data[d-1]+=e.expense;
+        })
+    }
+    return {
+        data:data,
+        label:label
+    }
+}
 
+//convert month from sep to 09
+function convertMonth(m){
+    switch(m){
+        case 'jan': return 01;
+        case 'feb': return 02;
+        case 'mar': return 03;
+        case 'apr': return 04;
+        case 'may': return 05;
+        case 'jun': return 06;
+        case 'jul': return 07;
+        case 'aug': return 08;
+        case 'sep': return 09;
+        case 'oct': return 10;
+        case 'nov': return 11;
+        case 'dec': return 12;
+    }
 }

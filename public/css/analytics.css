@@ -90,7 +90,7 @@ ul li.active {
 #bar_chart text.expense {
     opacity:.5;
     fill:#000;
-    font-size:16px;
+    font-size:14px;
     font-family: 'Open Sans', sans-serif;
 
 }
@@ -98,7 +98,7 @@ ul li.active {
 #bar_chart text.hidden {
     opacity:0;
     fill:#000;
-    font-size:16px;
+    font-size:14px;
     font-family: 'Open Sans', sans-serif;
 }
 
