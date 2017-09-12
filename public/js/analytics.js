@@ -4,13 +4,13 @@ function msg(){
     console.log("click!");
 }
 
-
 $('#year li').click(function(){
     if(!$(this).hasClass('active')) {
         $(this).siblings().removeClass('active');
         $(this).addClass('active');
         display_year=$(this).text();
-        console.log("change render year: "+display_year);
+        console.log("Year Changed: "+display_year);
+        $('#bar_chart svg').remove();
         getData();
     }
 })
@@ -20,7 +20,7 @@ $('#month li').click(function(){
         $(this).siblings().removeClass('active');
         $(this).addClass('active');
         display_month=$(this).text().toLowerCase();
-        console.log("change render month: "+display_month);
+        console.log("Month Changed: "+display_month);
         $('#bar_chart svg').remove();
         getData();
     }
@@ -60,6 +60,8 @@ function getData(){
                 });
             }
             renderBarChart(items_filter_month);
+            renderTable(items_filter_month);
+            renderPieChart(items_filter_month);
 
             // console.log(item[0].date.slice(0,4));
             // for(var i=0;i<people.length;i++){
@@ -96,7 +98,7 @@ function renderBarChart(items){
 
     var background=chart_holder.append('rect')
                     .attr('id',function(d,i){
-                        return 'rect'+i;
+                        return 'background'+i;
                     })
                     .style('fill','#fff')
                     .style('opacity','.5')
@@ -146,16 +148,16 @@ function renderBarChart(items){
 
 // expense number
     chart_holder.append('text')
-        .attr('class','hidden')
+        .attr('class','expense_hidden')
         .attr('id',function(d,i){
-            return "text"+i;
+            return "number"+i;
         })
         .attr('text-anchor','middle')
         .attr('x',function(d,i){
             return bandWidth*i+i-1+bandWidth/2;
         })
         .attr('y',function(d){
-            return height_background+extend_on_hover-yScale(d)-10;
+            return height_background+extend_on_hover-yScale(d);
         })
         .text(function(d){
             return '$' + d.toFixed(2);
@@ -177,14 +179,14 @@ var label=bardataObj.label;
         });
 
     function barchartMouseOverEffect(d,i){
-        d3.select('#rect'+i)
+        d3.select('#background'+i)
             .transition()
                 .ease(easeCurve)
                 .duration(500)
             .style('opacity','1')
             .attr('height',height_background+extend_on_hover)
             .attr('y',0);
-        d3.select('#text'+i)
+        d3.select('#number'+i)
             .transition()
                 .ease(easeCurve)
                 .duration(500)
@@ -197,32 +199,31 @@ var label=bardataObj.label;
                 .ease(easeCurve)
                 .duration(500)
             .attr('y',24)
-            .style('fill','#000')
+            .attr('class','label_active')
     }
 
     function barchartMouseOutEffect(d,i){
-        d3.select('#rect'+i)
+        d3.select('#background'+i)
             .transition()
                 .ease(easeCurve)
                 .duration(500)
             .style('opacity','.5')
             .attr('height',height_background)
             .attr('y',extend_on_hover);
-        d3.select('#text'+i)
+        d3.select('#number'+i)
             .transition()
                 .ease(easeCurve)
                 .duration(500)
-            .attr('class','hidden')
+            .attr('class','expense_hidden')
             .attr('y',function(d){
                 return height_background+extend_on_hover-yScale(d);
-            })
+            });
         d3.select('#label'+i)
             .transition()
                 .ease(easeCurve)
                 .duration(500)
             .attr('y',34)
-            .style('fill','#fff')
-
+            .attr('class','label')
     }
 }
 
@@ -251,6 +252,122 @@ var barObj=function(items){
         data:data,
         label:label
     }
+}
+
+function renderTable(items){
+    var tabelData=new tableObj(items);
+    var label=Object.keys(tabelData);
+    label=label.slice(0,12);  // incase there is other category name extended over 12
+    var data=Object.values(tabelData);
+    data=data.slice(0,12);  // incase there is other category name extended over 12
+    var height=50;
+    var width=$('.container').width();
+    var bandWidth=width/3;
+    var easeCurve =d3.easePoly;
+
+    var chart_holder=d3.select('#table').append('svg')
+                        .attr('width',width)
+                        .attr('height',height*12+11)
+                        .selectAll('rect').data(data).enter();
+
+    var table=chart_holder.append('rect')
+                .attr('id',function(d,i){
+                    return "cell"+i;
+                })
+                .attr('width',bandWidth)
+                .attr('height',height)
+                .attr('x',0)
+                .attr('y',function(d,i){
+                    return (height+1)*i;
+                })
+                .style('fill','#fff')
+                .style('opacity',.5)
+                .on('mouseover',function(d,i){
+                    MouseOverEffect(i);
+                })
+                .on('mouseout',function(d,i){
+                    MouseOutEffect(i);
+                });
+
+    var colors=['#C578EA','#F7BA7F','#6ECFCB','#F780C0','#F46157','#90DAFF','#7DCD72','#F7C407','#869CFF','#BF8AAF','#F68281','#555555'];
+    var bullet=chart_holder.append('circle')
+                .attr('r',4)
+                .attr('cx',20)
+                .attr('cy',function(d,i){
+                    return (height+1)*i+height/2
+                })
+                .style('fill',function(d,i){
+                    return colors[i];
+                });
+
+//labels: category names
+    var labels_Caps=[];
+    label.forEach(function(e){
+        labels_Caps.push(e[0].toUpperCase()+e.slice(1));
+    });
+    chart_holder.append('text')
+        .attr('id',function(d,i){
+            return "category_label"+i;
+        })
+        .attr("class",'label')
+        .attr('alignment-baseline','middle')
+        .attr('x',35)
+        .attr('y',function(d,i){
+            return (height+1)*i+height/2
+        })
+        .text(function(d,i){
+            return labels_Caps[i];
+        })
+        .on('mouseover',function(d,i){
+            MouseOverEffect(i);
+        })
+        .on('mouseout',function(d,i){
+            MouseOutEffect(i);
+        });
+
+
+    function MouseOverEffect(i){
+        d3.select("#cell"+i)
+            .transition()
+            .style('opacity',1);
+        d3.select("#category_label"+i)
+            .attr("class","label_active")
+    }
+
+    function MouseOutEffect(i){
+        d3.select("#cell"+i)
+            .transition()
+            .style('opacity',.5);
+        d3.select("#category_label"+i)
+            .attr("class","label");
+    }
+
+}
+
+var tableObj=function(items){
+    var data={
+        'food':0,
+        'drink':0,
+        'transport':0,
+        'shopping':0,
+        'health':0,
+        'beauty':0,
+        'housing':0,
+        'income':0,
+        'digital':0,
+        'recreation':0,
+        'learning':0,
+        'others':0
+    };
+    items.forEach(function(e){
+        var c=e.category;
+        data[c]+=e.expense;
+    })
+    return data;
+}
+
+function renderPieChart(items){
+    console.log("Pie Chart Rendered!")
 }
 
 //convert month from sep to 09

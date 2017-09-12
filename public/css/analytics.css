@@ -8,6 +8,7 @@
 
 body {
     background-image: url("background.png");
+    background-size: cover;
     height: 150vh;
 }
 
@@ -51,7 +52,8 @@ nav input:hover {
     padding-top: 100px;
 }
 
-ul li{
+ul#month li,
+ul#year li{
     font-family: 'Cinzel', serif;
     color: #Fff;
     opacity: .3;
@@ -59,26 +61,28 @@ ul li{
     border-bottom:1px solid rgba(255,255,255,0);
 }
 
-#year li {
+ul#year li {
     font-size: 40px;
     line-height: 40px;
     margin-right: 25px;
 }
 
-#month li {
+ul#month li {
     font-size: 20px;
     margin-right: 15px;
     margin-top: 10px;
 }
 
-ul li:hover {
+ul#month li:hover,
+ul#year li:hover {
     opacity: 1;
     border-bottom:1px solid;
     text-shadow: 0 0 8px rgba(255,255,255,.5);
 }
 
 
-ul li.active {
+ul#month li.active,
+ul#year li.active {
     opacity: 1;
     border-bottom:1px solid rgba(255,255,255,1);
 }
@@ -87,25 +91,42 @@ ul li.active {
     padding-top: 30px;
 }
 
+/*expense number*/
 #bar_chart text.expense {
     opacity:.5;
     fill:#000;
     font-size:14px;
     font-family: 'Open Sans', sans-serif;
-
 }
 
-#bar_chart text.hidden {
+#bar_chart text.expense_hidden {
     opacity:0;
     fill:#000;
     font-size:14px;
     font-family: 'Open Sans', sans-serif;
 }
 
+/*label*/
 #bar_chart text.label {
-    fill:#fff;
-    opacity: 0.5;
+    fill:rgba(255,255,255,.3);
     font-size:20px;
 }
 
+#bar_chart text.label_active {
+    fill:rgba(0,0,0,.5);
+    font-size:20px;
+}
 
+/*table*/
+#table rect{
+    cursor: pointer;
+}
+#table text.label {
+    fill:rgba(255,255,255,.8);
+    font-size:20px;
+}
+
+#table text.label_active {
+    fill:rgba(0,0,0,.5);
+    font-size:20px;
+}

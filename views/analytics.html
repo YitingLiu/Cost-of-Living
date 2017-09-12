@@ -14,7 +14,7 @@
         <nav class="navbar fixed-top">
             <h1>Analytics</h1>
             <div id="nav_btn_container">
-                <input type="button" value="+New Record" onclick="msg()">
+                <input type="button" value="+New Record" onclick="location.href='.../add.html';">
                 <input type="button" value="Comparison" onclick="msg()">
             </div>
         </nav>
@@ -43,6 +43,10 @@
                 </ul>
             </div>
             <div class="col-12" id="bar_chart"></div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-4" id="table"></div>
+            <div class="col-12 col-sm-8" id="pie_chart"></div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
