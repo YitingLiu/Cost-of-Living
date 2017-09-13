@@ -1,4 +1,5 @@
 var display_year,display_month;
+var dataToRender;
 
 function msg(){
     console.log("click!");
@@ -10,7 +11,8 @@ $('#year li').click(function(){
         $(this).addClass('active');
         display_year=$(this).text();
         console.log("Year Changed: "+display_year);
-        $('#bar_chart svg').remove();
+        $('svg').remove();
+
         getData();
     }
 })
@@ -21,7 +23,8 @@ $('#month li').click(function(){
         $(this).addClass('active');
         display_month=$(this).text().toLowerCase();
         console.log("Month Changed: "+display_month);
-        $('#bar_chart svg').remove();
+        $('svg').remove();
+
         getData();
     }
 })
@@ -59,10 +62,12 @@ function getData(){
                     if(m==convertMonth(display_month)) items_filter_month.push(e);
                 });
             }
+
+            dataToRender=items_filter_month;
+
             renderBarChart(items_filter_month);
             renderTable(items_filter_month);
             renderPieChart(items_filter_month);
-
             // console.log(item[0].date.slice(0,4));
             // for(var i=0;i<people.length;i++){
             //     var htmlToAdd = '<div class="col-md-4">'+
@@ -82,7 +87,7 @@ function getData(){
 }
 
 function renderBarChart(items){
-    var bardataObj=new barObj(items);
+    var bardataObj=barObj(items);
     var bardata=bardataObj.data;
     var height=210;
     var width=$('.container').width();
@@ -227,7 +232,7 @@ var label=bardataObj.label;
     }
 }
 
-var barObj=function(items){
+function barObj(items){
     var data=[];
     var label=[];
     if(display_month=='all') {
@@ -261,8 +266,8 @@ function renderTable(items){
     var data=Object.values(tabelData);
     data=data.slice(0,12);  // incase there is other category name extended over 12
     var height=50;
-    var width=$('.container').width();
-    var bandWidth=width/3;
+    var width=$('div#table').width();
+    var bandWidth=width;
     var easeCurve =d3.easePoly;
 
     var chart_holder=d3.select('#table').append('svg')
@@ -287,6 +292,9 @@ function renderTable(items){
                 })
                 .on('mouseout',function(d,i){
                     MouseOutEffect(i);
+                })
+                .on('click',function(){
+                    $('#categoryDetail').modal('show');
                 });
 
     var colors=['#C578EA','#F7BA7F','#6ECFCB','#F780C0','#F46157','#90DAFF','#7DCD72','#F7C407','#869CFF','#BF8AAF','#F68281','#555555'];
@@ -325,13 +333,41 @@ function renderTable(items){
             MouseOutEffect(i);
         });
 
+//expense numbers
+    chart_holder.append('text')
+        .attr('id',function(d,i){
+            return "expense_number"+i
+        })
+        .attr('class','expense')
+        .attr('text-anchor','end')
+        .attr('alignment-baseline','middle')
+        .attr('x',function(){
+            return width*.9;
+        })
+        .attr('y',function(d,i){
+            return (height+1)*i+height/2
+        })
+        .text(function(d,i){
+            return '$' + d.toFixed(2);
+        })
+        .on('mouseover',function(d,i){
+            MouseOverEffect(i);
+        })
+        .on('mouseout',function(d,i){
+            MouseOutEffect(i);
+        });
+
+
+
 
     function MouseOverEffect(i){
         d3.select("#cell"+i)
             .transition()
             .style('opacity',1);
         d3.select("#category_label"+i)
-            .attr("class","label_active")
+            .attr("class","label_active");
+        d3.select("#expense_number"+i)
+            .attr("class","expense_active")
     }
 
     function MouseOutEffect(i){
@@ -339,7 +375,9 @@ function renderTable(items){
             .transition()
             .style('opacity',.5);
         d3.select("#category_label"+i)
-            .attr("class","label");
+            .attr("class","label")
+        d3.select("#expense_number"+i)
+            .attr("class","expense")
     }
 
 }
@@ -387,3 +425,40 @@ function convertMonth(m){
         case 'dec': return 12;
     }
 }
+
+
+//window resized
+var rtime;
+var timeout=false;
+var delta=200;
+$(window).resize(function(){
+    rtime=new Date();
+    if(timeout===false){
+        timeout=true;
+        setTimeout(resizeend,delta);
+    }
+})
+
+function resizeend(){
+    if(new Date()-rtime<delta){
+        setTimeout(resizeend,delta);
+    }else{
+        timeout=false;
+        $('svg').remove();
+        console.log("resized!")
+        getData();
+    }
+}
+
+//modal
+// $('#categoryDetail').modal('show');
+$('#categoryDetail').on('show.bs.modal',function(e){
+    var category=$('#table .label_active').text();
+    var categoryID=$('#table .label_active').attr('id');
+    var index=categoryID.slice(14);  //category_label10
+    $('.modal .modal-header h4').html($('#table .label_active').text());
+})
+
+$('#categoryDetail .btns').click(function(){
+    $(this).children().css('display','flex');
+})

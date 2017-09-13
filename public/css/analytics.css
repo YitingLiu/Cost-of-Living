@@ -125,8 +125,76 @@ ul#year li.active {
     fill:rgba(255,255,255,.8);
     font-size:20px;
 }
-
 #table text.label_active {
     fill:rgba(0,0,0,.5);
     font-size:20px;
 }
+#table text.expense {
+    fill:rgba(255,255,255,.8);
+    font-size:20px;
+}
+#table text.expense_active {
+    fill:rgba(0,0,0,.5);
+    font-size:20px;
+}
+
+/*-----modal----------------------------*/
+#categoryDetail .modal-content {
+    background-color: rgba(255,255,255,.9);
+}
+#categoryDetail .time {
+    text-align: center;
+}
+
+#categoryDetail .item {
+    background-color: #fff;
+    margin: 1px;
+    padding:0;
+    height: 60px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#categoryDetail .item .name {
+    flex-grow:7;
+    margin-left: 15px;
+    font-size: 22px;
+}
+
+#categoryDetail .item .expense {
+    margin-right: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 20px;
+}
+
+#categoryDetail .item div.btns {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    min-width: 20px;
+    background-color: purple;
+    display: flex;
+    align-items: center;
+}
+
+#categoryDetail .item .btns div {
+    border:none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    color:#fff;
+
+    /*display: flex;*/
+    align-items: center;
+
+    display: none;
+
+}
+
+#categoryDetail .item .btns .first{
+    border-right: 2px solid #fff;
+}
+
