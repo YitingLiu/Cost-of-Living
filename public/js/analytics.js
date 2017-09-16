@@ -1,5 +1,4 @@
 var display_year,display_month;
-var dataToRender;
 
 function msg(){
     console.log("click!");
@@ -36,18 +35,24 @@ function init(){
     //set defaults!
     display_year="2017";
     display_month='all';
-
     getData();
+
 }
 
 function getData(){
-    var items_filter_year=[];
     jQuery.ajax({
         url : '/item/get',
         dataType : 'json',
         success : function(response) {
-            var items = response.item;
-            items.forEach(function(e){
+            filterDataFromDB(response.item);
+        }
+    })
+}
+
+var dataToRender;
+function filterDataFromDB(items){
+    var items_filter_year=[];
+     items.forEach(function(e){
                 var y=e.date.slice(0,4);
                 if(y==display_year) items_filter_year.push(e);
             });
@@ -64,26 +69,13 @@ function getData(){
             }
 
             dataToRender=items_filter_month;
+            render();
+}
 
-            renderBarChart(items_filter_month);
-            renderTable(items_filter_month);
-            renderPieChart(items_filter_month);
-            // console.log(item[0].date.slice(0,4));
-            // for(var i=0;i<people.length;i++){
-            //     var htmlToAdd = '<div class="col-md-4">'+
-            //         '<img src='+people[i].imageUrl+' width="100">'+
-            //         '<h1>'+people[i].name+'</h1>'+
-            //         '<ul>'+
-            //             '<li>Year: '+people[i].itpYear+'</li>'+
-            //             '<li>Interests: '+people[i].interests+'</li>'+
-            //         '</ul>'+
-            //         '<a href="/edit/'+people[i]._id+'">Edit Person</a>'+
-            //     '</div>';
-
-            //     jQuery("#people-holder").append(htmlToAdd);
-            // }
-        }
-    })
+function render(){
+    renderBarChart(dataToRender);
+    renderTable(dataToRender);
+    renderPieChart(dataToRender);
 }
 
 function renderBarChart(items){
@@ -446,19 +438,88 @@ function resizeend(){
         timeout=false;
         $('svg').remove();
         console.log("resized!")
-        getData();
+        render();
     }
 }
 
 //modal
 // $('#categoryDetail').modal('show');
-$('#categoryDetail').on('show.bs.modal',function(e){
+
+$('#categoryDetail').on('shown.bs.modal',function(e){
+    // var category=$('#table .label_active').text();
+    // var categoryID=$('#table .label_active').attr('id');
+    // var index=categoryID.slice(14);  //category_label10
+
     var category=$('#table .label_active').text();
-    var categoryID=$('#table .label_active').attr('id');
-    var index=categoryID.slice(14);  //category_label10
-    $('.modal .modal-header h4').html($('#table .label_active').text());
+    $('.modal .modal-header h4').html(category);
+    renderDetails(category.toLowerCase(),dataToRender);
 })
 
-$('#categoryDetail .btns').click(function(){
-    $(this).children().css('display','flex');
-})
+function renderDetails(category,items){
+    if(items.length>0){
+        var items_filter_category=[];
+        items.forEach(function(e){
+            if(e.category==category) items_filter_category.push(e);
+        });
+        items_filter_category=reorder(items_filter_category);
+        // console.log(items_filter_category.length);
+        // items_filter_category=items_filter_category.slice(1);
+        // console.log(items_filter_category.length);
+        $('.modal .modal-body').empty();
+        while(items_filter_category.length>0) {
+            var currentItems=[];
+            currentItems.push(items_filter_category[0]);
+            var currentDate=items_filter_category[0].date;
+            // console.log(currentDate);
+            items_filter_category=items_filter_category.slice(1);
+            while(items_filter_category.length>0){
+                if(items_filter_category[0].date==currentDate){
+                    currentItems.push(items_filter_category[0]);
+                    items_filter_category=items_filter_category.slice(1);
+                } else {
+                    break;
+                }
+            }
+            // console.log(currentItems);
+            //render to html
+            $('.modal .modal-body').append('<div class="time"><h5>- ' + currentDate + ' -</h5></div>');
+            currentItems.forEach(function(e){
+                $('.modal .modal-body').append('<div class="item"><div class="name">' + e.name +
+                    '</div><div class="expense">$' + e.expense +
+                    '</div><div class="btns"><a class="first" href="item/edit/' + e._id + '"><i class="material-icons">mode_edit</i></a><a><i class="material-icons">delete</i></a></div></div>'
+                    );
+            })
+
+        }
+    }
+}
+
+
+function reorder(items){
+    items.forEach(function(e){
+        var yr=e.date.slice(0,4);
+        var mth=e.date.slice(5,7)-1;
+        var d=e.date.slice(8,10);
+        var hr=e.date.slice(11,13);
+        var min=e.date.slice(14,16);
+        var sec=e.date.slice(17,19);
+        var newDate=new Date(yr,mth,d,hr,min,sec);
+        e.date=newDate;
+    })
+
+    items.sort(function(a,b){
+        return a.date - b.date;
+    });
+
+    items.forEach(function(e){
+        e.date=e.date.toDateString();
+    });
+
+    return items;
+}
+
+
+// edit, delete buttons
+// $('#categoryDetail .btns').click(function(){
+//     $(this).children().css('display','flex');
+// })

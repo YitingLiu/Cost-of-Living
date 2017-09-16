@@ -156,14 +156,47 @@ router.get('/item/get', function(req,res){
 
 })
 
+router.get('/item/edit/:id', function(req,res){
+
+  var requestedId = req.params.id;
+
+  Item.findById(requestedId,function(err,data){
+    if(err){
+      var error = {
+        status: "ERROR",
+        message: err
+      }
+      return res.json(error)
+    }
+
+    console.log(data);
+
+    var jsonData = {
+      status: "OK",
+      item: data
+    }
+
+    // return res.json(jsonData)
+
+    var viewData = {
+      pageTitle: "Edit " + data.name,
+      person: data
+    }
+
+    res.render('edit.html',viewData);
+
+  })
+
+})
 
 
 
 
 
 
-
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 router.get('/directory', function(req,res){
 
