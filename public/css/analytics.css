@@ -10,6 +10,13 @@ body {
     background-image: url("background.png");
     background-size: cover;
     height: 150vh;
+    padding-right: 0px !important
+}
+
+.modal-open {
+  overflow-y: hidden;
+  width: calc(100% - 17px); /*//for chrome/safari*/
+width: -moz-calc(100% - 15px); /*//for firefox*/
 }
 
 nav {
@@ -121,6 +128,12 @@ ul#year li.active {
 #table rect{
     cursor: pointer;
 }
+#table text{
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    cursor: pointer;
+}
 #table text.label {
     fill:rgba(255,255,255,.8);
     font-size:20px;
@@ -138,10 +151,44 @@ ul#year li.active {
     font-size:20px;
 }
 
-/*-----modal----------------------------*/
-#categoryDetail .modal-content {
-    background-color: rgba(255,255,255,.9);
+/*pie chart*/
+#pie_chart canvas{
+    background-color: rgba(255,255,255,.5);
 }
+
+/*-----modal----------------------------*/
+#categoryDetail {
+    padding: 0 !important;
+}
+
+div.modal-backdrop {
+    background-color: rgba(0,0,0,.5);
+}
+
+.modal-dialog {
+    margin:0 0 0 auto;
+}
+
+#categoryDetail .modal-content {
+    position: fixed;
+    right: -25%;  /*trasition*/
+    opacity: 0.5;  /*trasition*/
+    border: none;
+    border-radius: 0;
+    background-color: rgba(255,255,255,.9);
+
+        -webkit-transition: - .5s ease;
+    transition: .5s ease;
+}
+
+#categoryDetail .modal-header {
+    height: 55px;
+}
+
+#categoryDetail .modal-header h4{
+    margin-bottom: 0;
+}
+
 #categoryDetail .time {
     padding-top: 10px;
     text-align: center;
@@ -199,5 +246,54 @@ ul#year li.active {
 
 #categoryDetail .item .btns .first{
     border-right: 2px solid #fff;
+}
+
+#categoryDetail  .modal-footer button{
+    border:none;
+}
+#categoryDetail  .modal-footer button:hover{
+    opacity: 0.5
+}
+#categoryDetail  .modal-footer button:focus{
+    outline:none;
+}
+
+/*Extra small devices (portrait phones, less than 576px)
+No media query since this is the default in Bootstrap
+#categoryDetail .modal-content {
+    width: 100%;
+}
+/*Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+    #category_charts {
+        padding: 0;
+        height: 660px;
+    }
+
+    #table {
+        padding-right: 0;
+    }
+
+    #pie_chart {
+        padding-left: 1px;
+    }
+}
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+    #categoryDetail .modal-content {
+        width: 50vw;
+    }
+
+}
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+
+}
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+
 }
 

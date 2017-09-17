@@ -1,0 +1,145 @@
+* {
+    font-family: 'Alegreya Sans SC', sans-serif;
+    /*font-family: 'Open Sans', sans-serif;*/
+
+    -webkit-transition:.5s ease;
+    transition: .5s ease;
+}
+
+body {
+    /*overflow: hidden;*/
+    background-image: url("background.png");
+}
+
+.container {
+    max-width: 720px;
+}
+
+form {
+    width: auto;
+    margin:10px;
+}
+
+.row {
+    margin-top: 20px;
+    border-radius: 4px;
+}
+
+/* input ****************************** */
+input:focus {
+  outline: none;
+}
+
+.row.input_container {
+    height:100px;
+    background-color: rgba(255,255,255,.5);
+}
+
+.input_container label.myLabel {
+    position: relative;
+    top:30px;
+    font-size: 28px;
+    color:#fff;
+    font-weight:100;
+    line-height: 28px;
+}
+
+.input_container input {
+    background: none;
+    border:none;
+    width: 100%;
+    margin-top: 30px;
+    font-size:44px;
+    font-weight: 300;
+    position: relative;
+    top: -45px;
+}
+
+/*active*/
+.input_container.active {
+    background-color: rgba(255,255,255,.8);
+}
+
+.input_container.active .myLabel,
+.input_container.filled .myLabel{
+    color:#000;
+    top:5px;
+    font-size: 18px
+}
+
+/*error*/
+.input_container label.error {
+    position:relative;
+    top:-55px;
+    color:#ffbede;
+}
+
+.input_container.active label.error {
+    position:relative;
+    top:-55px;
+    color:red;
+}
+
+
+/* category ****************************** */
+
+.category_container {
+    background-color: rgba(255,255,255,.5);
+    padding-top: 15px;
+    text-align: center;
+}
+
+.category p {
+    font-size: 14px;
+    color:#fff;
+}
+
+.category.selected {
+    background-color:rgba(255,255,255,0.7);
+    border-radius: 4px;
+}
+.category.selected p {
+    color:#000;
+}
+
+/* submit btn ****************************** */
+#btn_container input{
+    display: block;
+    width: 250px;
+    margin: auto;
+    background-color: #FF634E;
+    color:#fff;
+    font-size: 22px;
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px 0 #FF634E;
+}
+
+#btn_container input:hover {
+    box-shadow: 0 2px 20px 0 #FF634E;
+}
+
+
+
+/*// Extra small devices (portrait phones, less than 576px)
+// No media query since this is the default in Bootstrap*/
+
+/*// Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+
+}
+
+/*// Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+
+}
+
+/*// Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+
+}
+
+/*// Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+
+}

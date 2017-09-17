@@ -180,7 +180,7 @@ router.get('/item/edit/:id', function(req,res){
 
     var viewData = {
       pageTitle: "Edit " + data.name,
-      person: data
+      item: data
     }
 
     res.render('edit.html',viewData);
@@ -188,6 +188,64 @@ router.get('/item/edit/:id', function(req,res){
   })
 
 })
+
+router.post('/item/edit/:id', function(req,res){
+
+  var requestedId = req.params.id;
+
+  var itemObj = {
+    expense: req.body.Expense,   // <input name="Expense">
+    name: req.body.Item.toLowerCase(),
+    category: req.body.Category.toLowerCase(),
+    quantity: req.body.Quantity,
+    date: req.body.Date
+  }
+
+  Item.findByIdAndUpdate(requestedId,itemObj,function(err,data){
+    if(err){
+      var error = {
+        status: "ERROR",
+        message: err
+      }
+      return res.json(error)
+    }
+
+    var jsonData = {
+      status: "OK",
+      item: itemObj
+    }
+
+    // return res.json(jsonData);
+
+    return res.redirect('/analytics');
+
+  })
+
+})
+
+
+router.get('/item/delete/:id',function(req,res){
+    var requestedId = req.params.id;
+
+    Item.findByIdAndRemove(requestedId,function(err, data){
+        // err
+        if(err || data==null) {
+          var error={
+            status:'ERROR',
+            message:'Cannot find that item to delete'
+          };
+          return res.json(errer)
+        }
+
+        var jsonData={
+          status:'OK',
+          message:'Successfully deleted id' + requestedId
+        }
+        console.log(data);
+        return res.json(jsonData);
+    })
+})
+
 
 
 

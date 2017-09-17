@@ -10,7 +10,6 @@ $('#year li').click(function(){
         $(this).addClass('active');
         display_year=$(this).text();
         console.log("Year Changed: "+display_year);
-        $('svg').remove();
 
         getData();
     }
@@ -22,7 +21,6 @@ $('#month li').click(function(){
         $(this).addClass('active');
         display_month=$(this).text().toLowerCase();
         console.log("Month Changed: "+display_month);
-        $('svg').remove();
 
         getData();
     }
@@ -49,7 +47,7 @@ function getData(){
     })
 }
 
-var dataToRender;
+var dataToRender=[];
 function filterDataFromDB(items){
     var items_filter_year=[];
      items.forEach(function(e){
@@ -67,7 +65,7 @@ function filterDataFromDB(items){
                     if(m==convertMonth(display_month)) items_filter_month.push(e);
                 });
             }
-
+            dataToRender=[];
             dataToRender=items_filter_month;
             render();
 }
@@ -79,6 +77,7 @@ function render(){
 }
 
 function renderBarChart(items){
+    $('#bar_chart svg').remove();
     var bardataObj=barObj(items);
     var bardata=bardataObj.data;
     var height=210;
@@ -252,12 +251,13 @@ function barObj(items){
 }
 
 function renderTable(items){
+    $('#table svg').remove();
     var tabelData=new tableObj(items);
     var label=Object.keys(tabelData);
     label=label.slice(0,12);  // incase there is other category name extended over 12
     var data=Object.values(tabelData);
     data=data.slice(0,12);  // incase there is other category name extended over 12
-    var height=50;
+    var height=(660-11)/12;//($('#category_charts').height()-11)/12;
     var width=$('div#table').width();
     var bandWidth=width;
     var easeCurve =d3.easePoly;
@@ -323,6 +323,9 @@ function renderTable(items){
         })
         .on('mouseout',function(d,i){
             MouseOutEffect(i);
+        })
+        .on('click',function(){
+            $('#categoryDetail').modal('show');
         });
 
 //expense numbers
@@ -347,6 +350,9 @@ function renderTable(items){
         })
         .on('mouseout',function(d,i){
             MouseOutEffect(i);
+        })
+        .on('click',function(){
+            $('#categoryDetail').modal('show');
         });
 
 
@@ -397,7 +403,61 @@ var tableObj=function(items){
 }
 
 function renderPieChart(items){
-    console.log("Pie Chart Rendered!")
+    $('#pie_chart canvas').remove();
+    $('#pie_chart').append('<canvas>');
+    $('#pie_chart canvas').attr('height',function(){
+        return $('#pie_chart').height();
+    })
+    $('#pie_chart canvas').attr('width',function(){
+        return $('#pie_chart').width();
+    })
+    var ctx=$("#pie_chart canvas")[0].getContext('2d');
+    var tabelData=new tableObj(items);
+    var label=Object.keys(tabelData);
+    label=label.slice(0,12);  // incase there is other category name extended over 12
+    var expense=Object.values(tabelData);
+    expense=expense.slice(0,12);  // incase there is other category name extended over 12
+    expense.forEach(function(e,i){
+        expense[i]=e.toFixed(2);
+    })
+    var colors=['#C578EA','#F7BA7F','#6ECFCB','#F780C0','#F46157','#90DAFF','#7DCD72','#F7C407','#869CFF','#BF8AAF','#F68281','#555555'];
+
+    var data={
+        datasets:[{
+            data:expense,
+            backgroundColor:colors,
+            borderColor:'rgba(255,255,255,.2)',
+            borderWidth:3,
+        }],
+        labels:label
+    }
+
+    var options={
+        layout: {
+            padding: {
+                left: 100,
+                right: 100,
+                top: 0,
+                bottom: 0
+            }
+        },
+        legend:{
+            display:false,
+        },
+        tooltips:{
+            bodyFontFamily: "'Alegreya Sans SC', sans-serif",
+            bodyFontSize: 16
+
+        }
+    };
+
+
+    var pieChart=new Chart(ctx,{
+        type:'doughnut',
+        data:data,
+        options:options
+    });
+
 }
 
 //convert month from sep to 09
@@ -445,37 +505,50 @@ function resizeend(){
 //modal
 // $('#categoryDetail').modal('show');
 
-$('#categoryDetail').on('shown.bs.modal',function(e){
-    // var category=$('#table .label_active').text();
-    // var categoryID=$('#table .label_active').attr('id');
-    // var index=categoryID.slice(14);  //category_label10
 
+$('#categoryDetail').on('shown.bs.modal',function(e){
     var category=$('#table .label_active').text();
     $('.modal .modal-header h4').html(category);
     renderDetails(category.toLowerCase(),dataToRender);
+
+    var categoryID=$('#table .label_active').attr('id');
+    var index=categoryID.slice(14);  //category_label10
+    var colors=['#C578EA','#F7BA7F','#6ECFCB','#F780C0','#F46157','#90DAFF','#7DCD72','#F7C407','#869CFF','#BF8AAF','#F68281','#555555'];
+    $('#categoryDetail .modal-content .modal-header').css('background-color',colors[index]);
+    $('#categoryDetail .item div.btns').css('background-color',colors[index]);
+
+    $("#categoryDetail .modal-content").css('right','0');
+    $("#categoryDetail .modal-content").css('opacity','1');
+
 })
 
-function renderDetails(category,items){
-    if(items.length>0){
+$('#categoryDetail').on('hide.bs.modal',function(e){
+    $("#categoryDetail .modal-content").css('right','-25%');
+    $("#categoryDetail .modal-content").css('opacity','.5');
+
+})
+
+
+function renderDetails(category,its){
+    $('.modal .modal-body').empty();
+    if(its.length>0){
         var items_filter_category=[];
-        items.forEach(function(e){
+        its.forEach(function(e){
             if(e.category==category) items_filter_category.push(e);
         });
-        items_filter_category=reorder(items_filter_category);
+        var item_order=reorder(items_filter_category);
         // console.log(items_filter_category.length);
         // items_filter_category=items_filter_category.slice(1);
-        // console.log(items_filter_category.length);
-        $('.modal .modal-body').empty();
-        while(items_filter_category.length>0) {
+        while(item_order.length>0) {
             var currentItems=[];
-            currentItems.push(items_filter_category[0]);
-            var currentDate=items_filter_category[0].date;
+            currentItems.push(item_order[0]);
+            var currentDate=item_order[0].date;
             // console.log(currentDate);
-            items_filter_category=items_filter_category.slice(1);
-            while(items_filter_category.length>0){
-                if(items_filter_category[0].date==currentDate){
-                    currentItems.push(items_filter_category[0]);
-                    items_filter_category=items_filter_category.slice(1);
+            item_order=item_order.slice(1);
+            while(item_order.length>0){
+                if(item_order[0].date==currentDate){
+                    currentItems.push(item_order[0]);
+                    item_order=item_order.slice(1);
                 } else {
                     break;
                 }
@@ -486,7 +559,7 @@ function renderDetails(category,items){
             currentItems.forEach(function(e){
                 $('.modal .modal-body').append('<div class="item"><div class="name">' + e.name +
                     '</div><div class="expense">$' + e.expense +
-                    '</div><div class="btns"><a class="first" href="item/edit/' + e._id + '"><i class="material-icons">mode_edit</i></a><a><i class="material-icons">delete</i></a></div></div>'
+                    '</div><div class="btns"><a class="first" href="item/edit/' + e._id + '"><i class="material-icons">mode_edit</i></a><a id="'+e._id+'" onclick="deleteItem(event)"><i id="'+e._id+'"class="material-icons">delete</i></a></div></div>'
                     );
             })
 
@@ -494,9 +567,32 @@ function renderDetails(category,items){
     }
 }
 
+function deleteItem(event){
+    var targetId=event.target.id;
+    jQuery.ajax({
+        url:'/item/delete/'+targetId,
+        dataType:'json',
+        success:function(res){
+            console.log("success delete!");
+            dataToRender=[];
+            jQuery.ajax({
+                url : '/item/get',
+                dataType : 'json',
+                success : function(response) {
+                    filterDataFromDB(response.item);
+                    var category=$('.modal .modal-header h4').html();
+                    renderDetails(category.toLowerCase(),dataToRender);
+                    var currentColor=$('.modal .modal-header').css('background-color');
+                    $('#categoryDetail .item div.btns').css('background-color',currentColor);
+                }
+            })
+        }
+    })
+}
 
-function reorder(items){
-    items.forEach(function(e){
+
+function reorder(itms){
+    itms.forEach(function(e){
         var yr=e.date.slice(0,4);
         var mth=e.date.slice(5,7)-1;
         var d=e.date.slice(8,10);
@@ -507,15 +603,15 @@ function reorder(items){
         e.date=newDate;
     })
 
-    items.sort(function(a,b){
+    itms.sort(function(a,b){
         return a.date - b.date;
     });
 
-    items.forEach(function(e){
+    itms.forEach(function(e){
         e.date=e.date.toDateString();
     });
 
-    return items;
+    return itms;
 }
 
 
