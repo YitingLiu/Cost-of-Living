@@ -7,10 +7,11 @@
 }
 
 body {
-    background-image: url("background.png");
-    background-size: cover;
-    height: 150vh;
-    padding-right: 0px !important
+    background-image: url("1.jpg");
+    background-size: 100vw 100vh;
+    background-attachment: fixed;
+/*    height: 150vh;
+*/    padding-right: 0px !important
 }
 
 .modal-open {

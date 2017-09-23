@@ -8,7 +8,9 @@
 
 body {
     /*overflow: hidden;*/
-    background-image: url("background.png");
+    background-image: url("1.jpg");
+    background-size: 100vw 100vh;
+    background-attachment: fixed;
 }
 
 .container {
