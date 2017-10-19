@@ -1,9 +1,5 @@
 var display_year,display_month;
 
-function msg(){
-    console.log("click!");
-}
-
 $('#year li').click(function(){
     if(!$(this).hasClass('active')) {
         $(this).siblings().removeClass('active');

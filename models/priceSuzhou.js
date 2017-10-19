@@ -3,11 +3,10 @@ var Schema = mongoose.Schema;
 
 // See http://mongoosejs.com/docs/schematypes.html
 
-var unitPriceSchema = new Schema({
+var priceSuzhouSchema = new Schema({
 	name: String,
-    suzhou: Number,
-    nyc: Number
+    price: Number,
 })
 
 // export model so we can interact with it in other files
-module.exports = mongoose.model('UnitPrice',unitPriceSchema);
+module.exports = mongoose.model('priceSuzhou',priceSuzhouSchema);

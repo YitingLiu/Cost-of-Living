@@ -166,7 +166,7 @@ div.modal-backdrop {
     background-color: rgba(0,0,0,.5);
 }
 
-.modal-dialog {
+#categoryDetail .modal-dialog {
     margin:0 0 0 auto;
 }
 
@@ -188,6 +188,7 @@ div.modal-backdrop {
 
 #categoryDetail .modal-header h4{
     margin-bottom: 0;
+    color: #fff;
 }
 
 #categoryDetail .time {
@@ -238,6 +239,8 @@ div.modal-backdrop {
 
     display: flex;
     align-items: center;
+
+    cursor: pointer;
 }
 
 #categoryDetail .item .btns a:hover {
@@ -260,7 +263,7 @@ div.modal-backdrop {
 }
 
 /*Extra small devices (portrait phones, less than 576px)
-No media query since this is the default in Bootstrap
+No media query since this is the default in Bootstrap*/
 #categoryDetail .modal-content {
     width: 100%;
 }
@@ -278,6 +281,10 @@ No media query since this is the default in Bootstrap
     #pie_chart {
         padding-left: 1px;
     }
+
+    #categoryDetail .modal-content {
+    width: 90%;
+}
 }
 
 /*Medium devices (tablets, 768px and up)*/

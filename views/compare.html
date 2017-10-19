@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Analytics</title>
+    <title>Compare</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:100,300|Open+Sans:300" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cinzel" rel="stylesheet">
@@ -14,10 +14,10 @@
 <body>
     <div class="container">
         <nav class="navbar fixed-top">
-            <h1>Analytics</h1>
+            <h1>Comparison</h1>
             <div id="nav_btn_container">
                 <input type="button" value="+New Record" onclick="location.href='add'">
-                <input type="button" value="Comparison" onclick="location.href='compare'">
+                <input type="button" value="Analytics" onclick="location.href='analytics'">
             </div>
         </nav>
         <div class="row">
@@ -44,13 +44,14 @@
                     <li class="nav-item">Dec</li>
                 </ul>
             </div>
+
             <div class="col-12" id="bar_chart"></div>
         </div>
         <div class="row" id="category_charts">
             <div class="col-12 col-sm-4" id="table"></div>
             <div class="col-12 col-sm-8" id="pie_chart"><canvas></canvas></div>
         </div>
-        <div class="modal" id="categoryDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal" id="categoryDetail" tabindex="-1" role="dialog" aria-labelledby="categoryDetail" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header"><h4></h4></div>
@@ -66,18 +67,40 @@
                             <a onclick="deleteItem(event)"><i class="material-icons">delete</i></a>
                         </div>
                     </div> -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" data-dismiss="modal">Close</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+    <div class="modal" id="priceDataAlert" tabindex="-1" role="dialog" aria-labelledby="priceDataAlert" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Price Data in Suzhou NEEDED!</h5>
+                </div>
+                <div class="modal-body">
+<!--                     <div class="row">
+                        <form id="input_form" action="/addPriceSuzhou/create" method="POST">
+                            <div class="col-12">
+                                <input type="text" id="name_input" name="Item" value="ItemName" required>
+                                <input type="text" id="suzhou_input" name="suzhou" required>
+                                <input type="submit" value="Submit">
+                            </div>
+                        </form>
+                    </div> -->
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
-<script type="text/javascript" src="js/analytics.js"></script>
+<script type="text/javascript" src="js/compare.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 // our db models
 var Item = require("../models/item.js");
-var UnitPrice = require("../models/unitPrice.js");
+var PriceSuzhou = require("../models/priceSuzhou.js");
 
 // S3 File dependencies
 // var AWS = require('aws-sdk');
@@ -53,9 +53,9 @@ router.get('/add', function(req,res){
 
 });
 
-router.get('/add-unitprice',function(req,res){
+router.get('/addPriceSuzhou',function(req,res){
 
-  res.render('add-unitprice.html')
+  res.render('addPriceSuzhou.html')
 
 });
 
@@ -87,48 +87,23 @@ router.post('/item/create', function(req,res){
     }
 
     // return res.redirect('/results');
-        return res.json(jsonData);
+        // return res.json(jsonData);
 
   })
 
 })
 
-//<form id="input_form" action="/unitprice/create" method="POST">
-router.post('/unitprice/create', function(req,res){
-
-  var unitpriceObj = {
-    name: req.body.Item.toLowerCase(),   // <input name="Item">
-    suzhou: req.body.suzhou,
-    nyc: req.body.nyc,
-  }
-
-  var unitprice = new UnitPrice(unitpriceObj);
-
-  unitprice.save(function(err,data){
-    if(err){
-      var error = {
-        status: "ERROR",
-        message: err
-      }
-      return res.json(err)
-    }
-
-    var jsonData = {
-      status: "OK",
-      item: data
-    }
-
-    // return res.redirect('/results');
-        return res.json(jsonData);
-
-  })
-
-})
 
 
 router.get('/analytics', function(req,res){
 
   res.render('analytics.html')
+
+})
+
+router.get('/compare', function(req,res){
+
+  res.render('compare.html')
 
 })
 
@@ -247,7 +222,61 @@ router.get('/item/delete/:id',function(req,res){
 })
 
 
+////////////// suzhou price ////////////////
 
+//<form id="input_form" action="/addPriceSuzhou/create" method="POST">
+router.post('/addPriceSuzhou/create', function(req,res){
+
+  var priceSuzhouObj = {
+    name: req.body.Item.toLowerCase(),   // <input name="Item">
+    price: req.body.suzhou,
+  }
+
+  var priceSuzhou = new PriceSuzhou(priceSuzhouObj);
+
+  priceSuzhou.save(function(err,data){
+    if(err){
+      var error = {
+        status: "ERROR",
+        message: err
+      }
+      return res.json(err)
+    }
+
+    var jsonData = {
+      status: "OK",
+      item: data
+    }
+
+    return res.redirect('/compare');
+        // return res.json(jsonData);
+
+  })
+
+})
+
+router.get('/suzhou/get', function(req,res){
+
+  PriceSuzhou.find(function(err,data){
+
+      if(err){
+        var error = {
+          status: "ERROR",
+          message: err
+        }
+        return res.json(err)
+      }
+
+      var jsonData = {
+        status: "OK",
+        item: data
+      }
+
+      return res.json(jsonData);
+
+  })
+
+})
 
 
 
