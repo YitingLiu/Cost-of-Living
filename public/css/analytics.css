@@ -56,7 +56,7 @@ nav input:hover {
     color:rgba(0,0,0,.5);
 }
 
-.container:first-child .row {
+.container .row:first-of-type {
     padding-top: 100px;
 }
 
@@ -262,19 +262,66 @@ div.modal-backdrop {
     outline:none;
 }
 
+/*----------- campare --------------*/
+#pie_charts #title{
+    background: rgba(255,255,255,.5);
+    margin: 0 15px 0 15px;
+    height: 45px;
+    width: 100%;
+}
+
+#pie_chart_sz, #pie_chart_ny {
+    margin-top: 1px;
+    background: rgba(255,255,255,.5);
+}
+
+#cards {
+    margin-top: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#cards > div {
+    height: 200px;
+    padding-left: 0px;
+    padding-right: 1px;
+}
+
+#cards .title {
+    height: 45px;
+    background: rgba(255,255,255,.5);
+    margin-bottom: 1px;
+}
+
+#cards .table {
+    height: 154px;
+}
+
+
+
 /*Extra small devices (portrait phones, less than 576px)
 No media query since this is the default in Bootstrap*/
 #categoryDetail .modal-content {
     width: 100%;
 }
+
+@media (max-width: 576px) {
+    #bar_chart {
+        margin-right: 15px;
+    }
+
+/*    #category_charts #table {
+        margin-right: 15px;
+    }*/
+}
+
 /*Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) {
     #category_charts {
         padding: 0;
         height: 660px;
     }
-
-    #table {
+    #table_holder {
         padding-right: 0;
     }
 
@@ -283,8 +330,16 @@ No media query since this is the default in Bootstrap*/
     }
 
     #categoryDetail .modal-content {
-    width: 90%;
-}
+        width: 90%;
+    }
+
+/*----------- campare --------------*/
+    #pie_chart_ny_holder {
+        padding-right: 0;
+    }
+    #pie_chart_sz_holder {
+        padding-left: 1px;
+    }
 }
 
 /*Medium devices (tablets, 768px and up)*/

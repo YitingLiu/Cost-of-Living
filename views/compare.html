@@ -44,12 +44,18 @@
                     <li class="nav-item">Dec</li>
                 </ul>
             </div>
-
-            <div class="col-12" id="bar_chart"></div>
+            <div class="col-12"><div id="bar_chart"></div></div>
         </div>
-        <div class="row" id="category_charts">
-            <div class="col-12 col-sm-4" id="table"></div>
-            <div class="col-12 col-sm-8" id="pie_chart"><canvas></canvas></div>
+        <div class="row" id="pie_charts">
+            <div id="title"></div>
+            <div class="col-12 col-sm-6" id="pie_chart_ny_holder"><div id="pie_chart_ny""><canvas></canvas></div></div>
+            <div class="col-12 col-sm-6" id="pie_chart_sz_holder"><div id="pie_chart_sz"><canvas></canvas></div></div>
+        </div>
+        <div class="row" id="cards">
+<!--             <div class="col-12 col-sm-6 col-md-3" id="food">
+                <div class="title"></div>
+                <div class="table"></div>
+            </div> -->
         </div>
         <div class="modal" id="categoryDetail" tabindex="-1" role="dialog" aria-labelledby="categoryDetail" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -102,5 +108,37 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.min.js"></script>
 <script type="text/javascript" src="js/compare.js"></script>
+<script type="text/javascript">
+    $("#input_form").validate({
+        // onkeyup: false,
+        // onclick: false,
+        // onfocusout: false,
+
+        rules: {
+            suzhou: {
+              required: true,
+              number: true
+            },
+            Item: "required"
+    },
+
+    // messages: {
+    //     Expense: {
+    //         required: '',
+    //         number:''
+    //     },
+    //     Item: {
+    //         required: ''
+    //     },
+    //     Quantity: {
+    //         number:'Please enter a number.'
+    //     }
+    // }
+});
+
+    $("input_form").click(function(){
+        return false;
+    })
+</script>
 </body>
 </html>

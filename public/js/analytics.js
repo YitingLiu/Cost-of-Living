@@ -77,7 +77,7 @@ function renderBarChart(items){
     var bardataObj=barObj(items);
     var bardata=bardataObj.data;
     var height=210;
-    var width=$('.container').width();
+    var width=$('#bar_chart').width();
     var bandWidth=(width-bardata.length+1)/bardata.length;
     var height_background=260;
     var extend_on_hover=10;
