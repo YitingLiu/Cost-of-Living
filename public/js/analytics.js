@@ -526,6 +526,7 @@ $('#categoryDetail').on('hide.bs.modal',function(e){
 
 
 function renderDetails(category,its){
+    console.log(its);
     $('.modal .modal-body').empty();
     if(its.length>0){
         var items_filter_category=[];
@@ -538,11 +539,11 @@ function renderDetails(category,its){
         while(item_order.length>0) {
             var currentItems=[];
             currentItems.push(item_order[0]);
-            var currentDate=item_order[0].date;
+            var currentDate=item_order[0].displayDate;
             // console.log(currentDate);
             item_order=item_order.slice(1);
             while(item_order.length>0){
-                if(item_order[0].date==currentDate){
+                if(item_order[0].displayDate==currentDate){
                     currentItems.push(item_order[0]);
                     item_order=item_order.slice(1);
                 } else {
@@ -595,16 +596,15 @@ function reorder(itms){
         var hr=e.date.slice(11,13);
         var min=e.date.slice(14,16);
         var sec=e.date.slice(17,19);
-        var newDate=new Date(yr,mth,d,hr,min,sec);
-        e.date=newDate;
+        e.displayDate=new Date(yr,mth,d,hr,min,sec);
     })
 
     itms.sort(function(a,b){
-        return a.date - b.date;
+        return a.displayDate - b.displayDate;
     });
 
     itms.forEach(function(e){
-        e.date=e.date.toDateString();
+        e.displayDate=e.displayDate.toDateString();
     });
 
     return itms;

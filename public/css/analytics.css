@@ -291,11 +291,13 @@ div.modal-backdrop {
     height: 45px;
     background: rgba(255,255,255,.5);
     margin-bottom: 1px;
+    transition:
 }
 
 #cards .table {
     height: 154px;
 }
+
 
 
 

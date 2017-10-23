@@ -378,6 +378,7 @@ function prepPieData(items,priceSuzhou){
 
 ///////////////// CARDS ////////////
 function renderCards(items,priceSuzhou){
+    $('#cards').empty();
     var data=prepPieData(items,priceSuzhou);
     // console.log(data);
     var name=Object.keys(data[0]);
@@ -397,10 +398,10 @@ function renderCards(items,priceSuzhou){
     var max =Math.max(max1,max2);
 
     for(var i=0;i<12;i++){
-        renderCardByCategory(name[i],expenseNY[i],expenseSZ[i],max);
+        renderCardByCategory(name[i],expenseNY[i],expenseSZ[i],max,items);
     }
 }
-function renderCardByCategory(name,ny,sz,max) {  // one item
+function renderCardByCategory(name,ny,sz,max,items) {  // one item
     console.log(name);
     $('#cards').append('<div class="col-12 col-sm-6 col-md-3" id="'+name+'"><div class="title"></div><div class="table"></div></div>');
     var data=[ny,sz];
@@ -422,8 +423,8 @@ function renderCardByCategory(name,ny,sz,max) {  // one item
                         .selectAll('rect').data(data).enter();
 
     var background=chart_holder.append('rect')
-                    .attr('id',function(d,i){
-                        return 'background'+i;
+                    .attr('class',function(){
+                        return 'background';
                     })
                     .style('fill','#fff')
                     .style('opacity','.5')
@@ -432,7 +433,17 @@ function renderCardByCategory(name,ny,sz,max) {  // one item
                     .attr('x',function(d,i){
                         return ((width-1)/2+1)*i;
                     })
-                    .attr('y',0);
+                    .attr('y',0)
+                    .on('mouseover',function(){
+                        cardMouseOverEffect();
+                    })
+                    .on('mouseout',function(){
+                        cardMouseOutEffect();
+                    })
+                    .on('click',function(){
+                        renderDetail(name,items);
+                        $('#categoryDetail').modal('show');
+                    });
 
     var table=chart_holder.append('rect')
                 .style('fill',function(d,i){
@@ -445,6 +456,12 @@ function renderCardByCategory(name,ny,sz,max) {  // one item
                 })
                 .attr('y',function(d,i){
                     return height;
+                })
+                .on('mouseover',function(){
+                    cardMouseOverEffect();
+                })
+                .on('mouseout',function(){
+                    cardMouseOutEffect();
                 });
 
     var yScale=d3.scaleLinear()
@@ -464,6 +481,122 @@ function renderCardByCategory(name,ny,sz,max) {  // one item
             return height-yScale(d);
         });
 
+    function cardMouseOverEffect(){
+        d3.select('#'+name+' .title')
+            .style('background','white');
+        d3.selectAll('#'+name+' .background')
+            .style('opacity','1');
+    }
+
+    function cardMouseOutEffect(){
+        d3.select('#'+name+' .title')
+            .style('background','rgba(255,255,255,.5)');
+        d3.selectAll('#'+name+' .background')
+            .style('opacity','.5');
+    }
+
+}
+
+
+function renderDetail(name,items){
+    $('.modal .modal-header h4').html(name);
+    $('.modal .modal-body').empty();
+
+    if(items.length>0){
+        var items_filter_category=[];
+        items.forEach(function(e){
+            if(e.category==name) items_filter_category.push(e);
+        });
+        var item_order=reorder(items_filter_category);
+        while(item_order.length>0) {
+            var currentItems=[];
+            currentItems.push(item_order[0]);
+            var currentDate=item_order[0].displayDate;
+            // console.log(currentDate);
+            item_order=item_order.slice(1);
+            while(item_order.length>0){
+                if(item_order[0].displayDate==currentDate){
+                    currentItems.push(item_order[0]);
+                    item_order=item_order.slice(1);
+                } else {
+                    break;
+                }
+            }
+            // console.log(currentItems);
+            //render to html
+            $('.modal .modal-body').append('<div class="time"><h5>- ' + currentDate + ' -</h5></div>');
+            currentItems.forEach(function(e){
+                $('.modal .modal-body').append('<div class="item"><div class="name">' + e.name +
+                    '</div><div class="expense">$' + e.expense +
+                    '</div><div class="btns"><a class="first" href="item/edit/' + e._id + '"><i class="material-icons">mode_edit</i></a><a id="'+e._id+'" onclick="deleteItem(event)"><i id="'+e._id+'"class="material-icons">delete</i></a></div></div>'
+                    );
+            })
+        }
+    }
+}
+
+$('#categoryDetail').on('shown.bs.modal',function(e){
+    var name=$('.modal .modal-header h4').html();
+    var categories=['food','drink','transport','shopping','health','beauty','housing','income','digital','recreation','learning','others'];
+    var index=categories.indexOf(name);
+    var colors=['#C578EA','#F7BA7F','#6ECFCB','#F780C0','#F46157','#90DAFF','#7DCD72','#F7C407','#869CFF','#BF8AAF','#F68281','#555555'];
+    $('#categoryDetail .modal-content .modal-header').css('background-color',colors[index]);
+    $('#categoryDetail .item div.btns').css('background-color',colors[index]);
+
+    $("#categoryDetail .modal-content").css('right','0');
+    $("#categoryDetail .modal-content").css('opacity','1');
+
+})
+
+$('#categoryDetail').on('hide.bs.modal',function(e){
+    $("#categoryDetail .modal-content").css('right','-25%');
+    $("#categoryDetail .modal-content").css('opacity','.5');
+
+})
+
+function deleteItem(event){
+    var targetId=event.target.id;
+    jQuery.ajax({
+        url:'/item/delete/'+targetId,
+        dataType:'json',
+        success:function(res){
+            console.log("success delete!");
+            dataToRender=[];
+            jQuery.ajax({
+                url : '/item/get',
+                dataType : 'json',
+                success : function(response) {
+                    filterDataFromDB(response.item);
+                    var category=$('.modal .modal-header h4').html();
+                    renderDetails(category.toLowerCase(),dataToRender);
+                    var currentColor=$('.modal .modal-header').css('background-color');
+                    $('#categoryDetail .item div.btns').css('background-color',currentColor);
+                }
+            })
+        }
+    })
+}
+
+function reorder(itms){
+    itms.forEach(function(e){
+        var yr=e.date.slice(0,4);
+        var mth=e.date.slice(5,7)-1;
+        var d=e.date.slice(8,10);
+        var hr=e.date.slice(11,13);
+        var min=e.date.slice(14,16);
+        var sec=e.date.slice(17,19);
+        e.displayDate=new Date(yr,mth,d,hr,min,sec);
+    })
+
+    itms.sort(function(a,b){
+        return a.displayDate - b.displayDate;
+    });
+
+    itms.forEach(function(e){
+        e.displayDate=e.displayDate.toDateString();
+    });
+
+    return itms;
 }
 
 //convert month from sep to 09
