@@ -369,9 +369,11 @@ function prepPieData(items,priceSuzhou){
         'others':0
     };
     items.forEach(function(e){
+        console.log(e);
         var c=e.category;
         dataNY[c]+=e.expense;
-        dataSZ[c]+=getSuzhouPriceByName(e.name,priceSuzhou)
+        e.expenseSZ=getSuzhouPriceByName(e.name,priceSuzhou);
+        dataSZ[c]+=e.expenseSZ;
     });
     return [dataNY,dataSZ];
 }
@@ -381,7 +383,7 @@ function renderCards(items,priceSuzhou){
     $('#cards').empty();
     var data=prepPieData(items,priceSuzhou);
     // console.log(data);
-    var name=Object.keys(data[0]);
+    var category=Object.keys(data[0]);
     var expenseNY=Object.values(data[0]);
     var expenseSZ=Object.values(data[1]);
     expenseNY=expenseNY.slice(0,12);  // incase there is other category name extended over 12
@@ -398,12 +400,12 @@ function renderCards(items,priceSuzhou){
     var max =Math.max(max1,max2);
 
     for(var i=0;i<12;i++){
-        renderCardByCategory(name[i],expenseNY[i],expenseSZ[i],max,items);
+        renderCardByCategory(category[i],expenseNY[i],expenseSZ[i],max,items);
     }
 }
-function renderCardByCategory(name,ny,sz,max,items) {  // one item
-    console.log(name);
-    $('#cards').append('<div class="col-12 col-sm-6 col-md-3" id="'+name+'"><div class="title"></div><div class="table"></div></div>');
+function renderCardByCategory(category,ny,sz,max,items) {  // one item
+    console.log(category);
+    $('#cards').append('<div class="col-12 col-sm-6 col-md-3" id="'+category+'"><div class="title"></div><div class="table"></div></div>');
     var data=[ny,sz];
     var colors=['#4bfbd3','#FFD580'];
     // $('#cards #'+name' svg').remove();
@@ -412,12 +414,12 @@ function renderCardByCategory(name,ny,sz,max,items) {  // one item
     // label=label.slice(0,12);  // incase there is other category name extended over 12
     // var data=Object.values(tabelData);
     // data=data.slice(0,12);  // incase there is other category name extended over 12
-    var height=$('#cards #'+name+' .table').height()-1;
-    var width=$('#cards #'+name+' .table').width();
+    var height=$('#cards #'+category+' .table').height()-1;
+    var width=$('#cards #'+category+' .table').width();
     // var bandWidth=width;
     var easeCurve =d3.easePoly;
 
-    var chart_holder=d3.select('#cards #'+name+' .table').append('svg')
+    var chart_holder=d3.select('#cards #'+category+' .table').append('svg')
                         .attr('width',width)
                         .attr('height',height)
                         .selectAll('rect').data(data).enter();
@@ -441,7 +443,7 @@ function renderCardByCategory(name,ny,sz,max,items) {  // one item
                         cardMouseOutEffect();
                     })
                     .on('click',function(){
-                        renderDetail(name,items);
+                        renderDetail(category,items);
                         $('#categoryDetail').modal('show');
                     });
 
@@ -482,16 +484,16 @@ function renderCardByCategory(name,ny,sz,max,items) {  // one item
         });
 
     function cardMouseOverEffect(){
-        d3.select('#'+name+' .title')
+        d3.select('#'+category+' .title')
             .style('background','white');
-        d3.selectAll('#'+name+' .background')
+        d3.selectAll('#'+category+' .background')
             .style('opacity','1');
     }
 
     function cardMouseOutEffect(){
-        d3.select('#'+name+' .title')
+        d3.select('#'+category+' .title')
             .style('background','rgba(255,255,255,.5)');
-        d3.selectAll('#'+name+' .background')
+        d3.selectAll('#'+category+' .background')
             .style('opacity','.5');
     }
 
@@ -522,14 +524,14 @@ function renderDetail(name,items){
                     break;
                 }
             }
-            // console.log(currentItems);
+            console.log(currentItems);
             //render to html
             $('.modal .modal-body').append('<div class="time"><h5>- ' + currentDate + ' -</h5></div>');
             currentItems.forEach(function(e){
-                $('.modal .modal-body').append('<div class="item"><div class="name">' + e.name +
-                    '</div><div class="expense">$' + e.expense +
-                    '</div><div class="btns"><a class="first" href="item/edit/' + e._id + '"><i class="material-icons">mode_edit</i></a><a id="'+e._id+'" onclick="deleteItem(event)"><i id="'+e._id+'"class="material-icons">delete</i></a></div></div>'
-                    );
+                $('.modal .modal-body').append('<div class="item"><div class="name">'
+                    +e.name+'</div><div class="expense_holder"><div class="expense expense_left">$'
+                    +e.expense+'</div><div class="expense expense_right">$'
+                    +e.expenseSZ+'</div></div></div>');
             })
         }
     }
@@ -541,7 +543,8 @@ $('#categoryDetail').on('shown.bs.modal',function(e){
     var index=categories.indexOf(name);
     var colors=['#C578EA','#F7BA7F','#6ECFCB','#F780C0','#F46157','#90DAFF','#7DCD72','#F7C407','#869CFF','#BF8AAF','#F68281','#555555'];
     $('#categoryDetail .modal-content .modal-header').css('background-color',colors[index]);
-    $('#categoryDetail .item div.btns').css('background-color',colors[index]);
+    $('#categoryDetail .item div.expense').css('background-color',colors[index]);
+    $('#categoryDetail .item div.expense_right').css('opacity','.8');
 
     $("#categoryDetail .modal-content").css('right','0');
     $("#categoryDetail .modal-content").css('opacity','1');
@@ -553,29 +556,6 @@ $('#categoryDetail').on('hide.bs.modal',function(e){
     $("#categoryDetail .modal-content").css('opacity','.5');
 
 })
-
-function deleteItem(event){
-    var targetId=event.target.id;
-    jQuery.ajax({
-        url:'/item/delete/'+targetId,
-        dataType:'json',
-        success:function(res){
-            console.log("success delete!");
-            dataToRender=[];
-            jQuery.ajax({
-                url : '/item/get',
-                dataType : 'json',
-                success : function(response) {
-                    filterDataFromDB(response.item);
-                    var category=$('.modal .modal-header h4').html();
-                    renderDetails(category.toLowerCase(),dataToRender);
-                    var currentColor=$('.modal .modal-header').css('background-color');
-                    $('#categoryDetail .item div.btns').css('background-color',currentColor);
-                }
-            })
-        }
-    })
-}
 
 function reorder(itms){
     itms.forEach(function(e){
