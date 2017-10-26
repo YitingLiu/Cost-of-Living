@@ -56,6 +56,26 @@ nav input:hover {
     color:rgba(0,0,0,.5);
 }
 
+nav.white {
+    background-color: black;
+    opacity: .7
+}
+
+nav.white h1 {
+    color:white;
+    opacity: .7;
+}
+
+nav.white input {
+    background-color: rgba(255,255,255,.8);
+    color:rgba(0,0,0,.8);
+}
+
+nav.white input:hover {
+    background-color: rgba(255,255,255,.2);
+    color:rgba(255,255,255,.8);
+}
+
 .container .row:first-of-type {
     padding-top: 100px;
 }
@@ -153,6 +173,10 @@ ul#year li.active {
 }
 
 /*pie chart*/
+#pie_chart {
+    min-height: 450px;
+    min-width: 450px;
+}
 #pie_chart canvas{
     background-color: rgba(255,255,255,.5);
 }
@@ -270,33 +294,40 @@ div.modal-backdrop {
     width: 100%;
 }
 
+#pie_chart_ny,
+#pie_chart_sz {
+    height: 300px;
+    min-height: 280px;
+}
+
 #pie_chart_sz, #pie_chart_ny {
     margin-top: 1px;
     background: rgba(255,255,255,.5);
 }
 
 #cards {
-    margin-top: 1px;
+    margin-top: 10px;
     padding-left: 15px;
     padding-right: 15px;
 }
 
 #cards > div {
-    height: 200px;
+    /*height: 200px;*/
     padding-left: 0px;
     padding-right: 1px;
+    /*background: rgba(255,255,255,.5);*/
 }
 
-#cards .title {
+/*#cards .title {
     height: 45px;
     background: rgba(255,255,255,.5);
     margin-bottom: 1px;
     transition:
-}
+}*/
 
-#cards .table {
+/*#cards .table {
     height: 154px;
-}
+}*/
 
 #categoryDetail .item .expense_holder {
     width:141px;
@@ -319,9 +350,6 @@ div.modal-backdrop {
     height: 100%;
     color:#fff;
 }
-
-
-
 
 
 

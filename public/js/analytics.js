@@ -407,53 +407,66 @@ function renderPieChart(items){
     $('#pie_chart canvas').attr('width',function(){
         return $('#pie_chart').width();
     })
-    var ctx=$("#pie_chart canvas")[0].getContext('2d');
+    var canvas=$("#pie_chart canvas")[0];
+    var context=$("#pie_chart canvas")[0].getContext('2d');
+
     var tabelData=new tableObj(items);
     var label=Object.keys(tabelData);
     label=label.slice(0,12);  // incase there is other category name extended over 12
     var expense=Object.values(tabelData);
     expense=expense.slice(0,12);  // incase there is other category name extended over 12
-    expense.forEach(function(e,i){
-        expense[i]=e.toFixed(2);
+    var sum=0;
+    expense.forEach(function(e){
+        sum+=e;
     })
+    var percents=[];
+    expense.forEach(function(e){
+        var persent=(e/sum)*100;
+        percents.push(persent.toFixed(2));
+    })
+
     var colors=['#C578EA','#F7BA7F','#6ECFCB','#F780C0','#F46157','#90DAFF','#7DCD72','#F7C407','#869CFF','#BF8AAF','#F68281','#555555'];
 
-    var data={
-        datasets:[{
-            data:expense,
-            backgroundColor:colors,
-            borderColor:'rgba(255,255,255,.2)',
-            borderWidth:3,
-        }],
-        labels:label
-    }
+    var width = canvas.width,
+        height = canvas.height,
+        radius = Math.min(width, height) / 2;
 
-    var options={
-        layout: {
-            padding: {
-                left: 100,
-                right: 100,
-                top: 0,
-                bottom: 0
-            }
-        },
-        legend:{
-            display:false,
-        },
-        tooltips:{
-            bodyFontFamily: "'Alegreya Sans SC', sans-serif",
-            bodyFontSize: 16
+    var arc = d3.arc()
+        .outerRadius(radius - 100)
+        .innerRadius(radius - 160)
+        .padAngle(0.01)
+        // .cornerRadius(5)
+        .context(context);
 
-        }
-    };
+    var pie = d3.pie();
 
+    var arcs = pie(percents);
 
-    var pieChart=new Chart(ctx,{
-        type:'doughnut',
-        data:data,
-        options:options
+    context.translate(width / 2, height / 2);
+
+    arcs.forEach(function(d, i) {
+      context.beginPath();
+      arc(d);
+      context.fillStyle = colors[i];
+      context.fill();
     });
 
+    var outerArc = d3.arc()
+        .outerRadius(radius -50)
+        .innerRadius(radius -50);
+
+    context.beginPath();
+    arcs.forEach(function(d,i) {
+        if(d.data>0){
+            var c = outerArc.centroid(d);
+            context.font="15px Alegreya Sans SC";
+            context.textAlign="center";
+            context.fillStyle="rgba(255,255,255,1)";
+            context.fillText(label[i],c[0],c[1]);
+            context.font="20px Alegreya Sans SC";
+            context.fillText(d.data+"%",c[0],c[1]+20);
+        }
+    });
 }
 
 //convert month from sep to 09
@@ -610,8 +623,13 @@ function reorder(itms){
     return itms;
 }
 
-
-// edit, delete buttons
-// $('#categoryDetail .btns').click(function(){
-//     $(this).children().css('display','flex');
-// })
+//navbar scroll effects
+$(document).scroll(function(){
+    // console.log('scroll');
+    var top=$(this).scrollTop();
+    if(top>100){
+        $('nav').addClass('white');
+    } else {
+        $('nav').removeClass('white');
+    }
+})
