@@ -86,8 +86,8 @@ router.post('/item/create', function(req,res){
       item: data
     }
 
-    // return res.redirect('/results');
-        return res.json(jsonData);
+    return res.redirect('/analytics');
+        // return res.json(jsonData);
 
   })
 
